@@ -1,0 +1,40 @@
+body{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+#container-1 video{
+    width: 500px;
+    height: auto;
+    border: 4px solid grey; /* Borda azul */
+    border-radius: 10px; /* Arredondar os cantos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra */
+    width: 100%; /* Tornar responsivo */
+    max-width: 800px; /* Limita o tamanho máximo */
+    outline: none; /* Remove a borda de foco */
+}
+.video{
+    display: flex;
+    justify-content: center;
+    
+}
+
+#container-2 .imagens{
+    display: flex;
+    justify-content: space-around;   
+}
+#container-2 img{
+    width: 300px;
+    height: auto;
+}
+#container-3 .imagens{
+    display: flex;
+    justify-content: space-around;   
+}
+#container-3 img{
+    width: 300px;
+    height: auto;
+}
+.bottom-text p{
+    text-align: center;
+}

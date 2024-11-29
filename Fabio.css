@@ -1,0 +1,42 @@
+#container-1 .imagem{
+    display: flex;
+    justify-content: center;
+    
+}
+#container-1 img{
+    width: 600px;
+    height: auto;
+}
+#container-2 .imagens{
+    display: flex;
+    justify-content: space-around;   
+}
+#container-2 img{
+    width: 300px;
+    height: auto;
+}
+#container-3 .imagens{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    gap: 20px;
+}
+#container-3 img{
+    width: 300px;
+    height: auto;
+}
+#container-4 .imagens{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    gap: 20px;
+}
+#container-4 img{
+    width: 300px;
+    height: auto;
+}
+.bottom-text p{
+    text-align: center;
+}

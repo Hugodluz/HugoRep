@@ -1,0 +1,91 @@
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.formulario p{
+    text-align: center;
+}
+.container {
+    width: 100%;
+    max-width: 700px;
+    background-color: grey;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Título do formulário */
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+/* Estilo dos campos de entrada */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: whitesmoke;
+    margin-bottom: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.input-group input {
+    width: 97%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #007bff;
+}
+
+/* Estilo do botão de submit */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Links de ajuda abaixo do formulário */
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.links a {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #0056b3;
+}

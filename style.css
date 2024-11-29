@@ -1,0 +1,198 @@
+body{
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+img{
+    width: 100px;
+    height: auto;
+}
+#criarperfil{
+    width: 120px;
+    height: auto;
+}
+
+#barradepesquisa{
+    width: 300px;
+    height: auto;
+    border-radius: 40px;
+    text-align: center;
+}
+p{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 18px;
+}
+h1{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+#Cabeçalho{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+#Projects{
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+#Projects {
+  width: 100%; /* Permite que o contêiner ocupe toda a largura disponível */
+  display: flex; /* Flexbox para alinhamento das imagens */
+  justify-content: space-around; /* Espaço ao redor das imagens */
+  align-items: center; /* Alinha as imagens verticalmente */
+  gap: 20px; /* Espaçamento entre as imagens */
+}
+
+/* Contêiner de cada imagem */
+.container-imagens {
+  position: relative;
+  width: 400px; /* Preenche o espaço disponível */
+  max-width: 500px; /* Limita a largura para 320px */
+  height: auto; /* Altura proporcional */
+  aspect-ratio: 4 / 5; /* Mantém a proporção de 4:5 */
+  overflow: hidden;
+}
+
+/* Estilização das imagens */
+.container-imagens img {
+  width: 100%; /* A imagem vai preencher toda a largura do contêiner */
+  height: 100%; /* A imagem vai preencher toda a altura do contêiner */
+  object-fit: cover; /* Mantém a proporção da imagem, cortando o excesso se necessário */
+  display: block; /* Remove o espaço extra ao redor da imagem */
+}
+
+/* Sobreposição com o texto */
+.container-imagens .Overlay {
+  position: absolute; /* Posiciona a sobreposição sobre a imagem */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ocupa toda a largura do contêiner */
+  height: 100%; /* Ocupa toda a altura do contêiner */
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+  color: white; /* Cor do texto */
+  opacity: 0; /* Inicialmente invisível */
+  transition: opacity 0.3s ease; /* Transição suave ao passar o mouse */
+  text-transform: uppercase;
+}
+
+/* Efeito de hover para mostrar a sobreposição */
+.container-imagens:hover .Overlay {
+  opacity: 1; /* Torna a sobreposição visível */
+}
+.container-imagens .Overlay p {
+  text-align: center;
+  margin-bottom: 15px;
+}
+#latest-designs{
+  display: flex;
+  flex-direction: column;
+}
+#latest-designs .imagens{
+ display: flex;
+ flex-direction: column;
+ justify-content: space-around;
+ align-items: center;
+ gap: 35px;
+
+}
+#latest-designs .imagens img{
+  width: 400px;
+  height: auto;
+ }
+
+#Latest-Project .imagens{
+  display: flex ;
+  justify-content: space-around;
+}
+#Latest-Project p{
+  text-align: center;
+}
+#Latest-Project img{
+  width: 120px;
+  height: auto;
+}
+.footer{
+  display: flex;
+  justify-content: space-between;
+}
+.footer p{
+  display: flex;
+  align-items: end;
+}
+.footer .socials{
+  display: flex;
+  align-items: end;
+}
+.dropdown {
+  position: relative;
+}
+
+/* Estilo do label que vai acionar a lista */
+.dropdown-label {
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
+  padding: 8px 12px;
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 5px;
+  user-select: none;
+}
+
+/* O checkbox está escondido, mas serve para controlar a visibilidade */
+.dropdown-toggle {
+  display: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-label {
+  font-size: 18px;
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: grey;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+a{
+  text-decoration: none;
+}

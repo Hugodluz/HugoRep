@@ -1,0 +1,47 @@
+#container-1 .imagem{
+    display: flex;
+    justify-content: center;
+    
+}
+#container-1 img{
+    width: 600px;
+    height: auto;
+}
+#container-2 .imagens{
+    display: flex;
+    justify-content: space-around;   
+}
+#container-2 img{
+    width: 300px;
+    height: auto;
+}
+.button{
+    display: flex;
+    justify-content: center;
+}
+button {
+    background-color: #808080; /* Cinzento */
+    color: #ffffff; /* Texto branco */
+    border: none; /* Remove bordas */
+    padding: 10px 20px; /* Espaçamento interno */
+    font-size: 16px; /* Tamanho do texto */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de mão ao passar */
+    transition: background-color 0.3s ease; /* Animação ao passar o mouse */
+
+}
+
+button:hover {
+    background-color: #696969; /* Cinzento mais escuro ao passar o mouse */
+}
+#container-3 .imagens{
+    display: flex;
+    justify-content: space-around;   
+}
+#container-3 img{
+    width: 550px;
+    height: auto;
+}
+.bottom-text p{
+    text-align: center;
+}
