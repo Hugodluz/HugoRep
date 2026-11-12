@@ -63,6 +63,20 @@ window.KURENT_PRODUCTS = [
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
   },
 
+  {
+    id: 'mv-dirty-hands-kit',
+    pillar: 'movement',
+    category: 'apparel',
+    name: 'Dirty Hands Clean Form Kit',
+    price: 95,
+    shape: 'kit',
+    images: { Black: 'assets/krt-team-kit-dirty-hands.jpg' },
+    description: 'Black tee with "Dirty Hands Clean Form" on the chest and the KRT monogram, plus matching shorts.',
+    details: ['T-shirt + shorts set', '"Dirty Hands Clean Form" chest print', 'KRT monogram on chest and left leg', 'KRT team neck label'],
+    colors: [{ name: 'Black', swatch: '#0d0d0d', art: { base: '#121212', ink: '#262626', accent: '#ff5a1f' } }],
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
+  },
+
   /* ---------- TEAM (mid) ---------- */
   {
     id: 'tm-performance-top',
@@ -88,20 +102,6 @@ window.KURENT_PRODUCTS = [
     colors: [{ name: 'Black', swatch: '#0d0d0d', art: { base: '#121212', ink: '#262626', accent: '#ff5a1f' } }],
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
-  {
-    id: 'tm-dirty-hands-kit',
-    pillar: 'team',
-    category: 'apparel',
-    name: 'Dirty Hands Clean Form Kit',
-    price: 95,
-    shape: 'kit',
-    images: { Black: 'assets/krt-team-kit-dirty-hands.jpg' },
-    description: 'The KRT Team training kit. Black tee with "Dirty Hands Clean Form" on the chest and the KRT monogram, plus matching shorts.',
-    details: ['T-shirt + shorts set', '"Dirty Hands Clean Form" chest print', 'KRT monogram on chest and left leg', 'KRT team neck label'],
-    colors: [{ name: 'Black', swatch: '#0d0d0d', art: { base: '#121212', ink: '#262626', accent: '#ff5a1f' } }],
-    sizes: ['XS', 'S', 'M', 'L', 'XL']
-  },
-
   /* ---------- KRTP (premium / limited) ---------- */
   {
     id: 'kr-velvet-tracksuit',
