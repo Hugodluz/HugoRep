@@ -512,3 +512,46 @@ body[data-section="team"] .header.is-scrolled { background: rgba(8, 8, 8, .8); c
 .pm__media { position: relative; }
 .pm__media img.photo { position: absolute; inset: 5%; width: 90%; height: 90%; object-fit: contain; }
 @media (min-width: 820px) { .pm { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } .pm__media { height: auto; max-height: none; min-height: 560px; align-self: stretch; } }
+
+/* ---------- Lifestyle photos ---------- */
+/* Hero: photo on the right (desktop), full-bleed behind text (mobile) */
+.hero__photo { position: absolute; inset: 0; z-index: 0; }
+.hero__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; filter: grayscale(1) contrast(1.05); opacity: .45; }
+.hero__photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,11,11,.55) 0%, rgba(11,11,11,.35) 40%, rgba(11,11,11,.9) 100%); }
+.hero__inner, .hero__pillars { z-index: 1; }
+@media (min-width: 900px) {
+  .hero__photo { left: auto; width: 46%; }
+  .hero__photo img { opacity: .9; object-position: 50% 50%; }
+  .hero__photo::after { background: linear-gradient(90deg, var(--black) 0%, rgba(11,11,11,.55) 28%, rgba(11,11,11,0) 60%), linear-gradient(0deg, rgba(11,11,11,.6), transparent 30%); }
+}
+
+/* Movement: editorial photo in the right column above the copy */
+.pillar__photo { margin: 0; position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 5; background: var(--paper); }
+.pillar__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transition: transform 1.2s var(--ease); }
+.pillar__photo:hover img { transform: scale(1.03); }
+.pillar__photo figcaption { position: absolute; left: 14px; bottom: 12px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.85); }
+@media (min-width: 960px) {
+  .pillar--movement .pillar__head { grid-template-columns: 1.3fr 1fr; grid-template-areas: "index index" "slogan photo" "slogan copy"; align-items: start; row-gap: 32px; }
+  .pillar--movement .pillar__index { grid-area: index; }
+  .pillar--movement .pillar__slogan { grid-area: slogan; position: sticky; top: calc(var(--header-h) + 32px); }
+  .pillar--movement .pillar__photo { grid-area: photo; max-width: 480px; }
+  .pillar--movement .pillar__copy { grid-area: copy; }
+}
+
+/* Mission: colour portrait beside the statement */
+.mission__intro { display: grid; gap: 32px; }
+.mission__intro .eyebrow { margin-bottom: 0; }
+.mission__photo { margin: 0; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 5; max-height: 640px; }
+.mission__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+@media (min-width: 960px) {
+  .mission__intro { grid-template-columns: 1.2fr 1fr; grid-template-areas: "eyebrow photo" "statement photo"; align-items: end; column-gap: 64px; }
+  .mission__intro .eyebrow { grid-area: eyebrow; align-self: end; }
+  .mission__statement { grid-area: statement; align-self: start; }
+  .mission__photo { grid-area: photo; justify-self: end; width: 100%; max-width: 480px; }
+}
+@media (min-width: 900px) {
+  .hero__photo { width: 52%; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%); mask-image: linear-gradient(90deg, transparent 0%, #000 45%); }
+  .hero__photo::after { background: linear-gradient(0deg, rgba(11,11,11,.65), transparent 35%); }
+}
+.hero__photo img { opacity: .55; }
+@media (min-width: 900px) { .hero__photo img { opacity: .9; } }
