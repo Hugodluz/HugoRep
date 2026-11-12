@@ -36,8 +36,8 @@ window.KURENT_CONFIG = {
   name, price (EUR placeholder), description, details[]
   colors: [{ name, swatch, art }]  -> 'art' drives the placeholder illustration
   sizes: [] (empty for art)
-  shape: placeholder illustration ('tee' | 'tank' | 'shorts' | 'kit' | 'tracksuit' | 'shirt' | 'painting' | 'sculpture')
-  images: { [colorName]: 'assets/file.jpg' }  -> real photos override the illustration
+  shape / art: no longer used for images (kept for reference)
+  images: { [colorName]: 'assets/file.jpg' }  -> product photo (no photo = "Photo coming soon" tile)
   splitColors: true -> one card per colour in the grid
   limited: true  -> shows the "Limited" badge and edition info
   edition: number of pieces (for limited items)
@@ -89,14 +89,15 @@ window.KURENT_PRODUCTS = [
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   {
-    id: 'tm-performance-kit',
+    id: 'tm-dirty-hands-kit',
     pillar: 'team',
     category: 'apparel',
-    name: 'Performance Kit (Top + Shorts)',
+    name: 'Dirty Hands Clean Form Kit',
     price: 95,
     shape: 'kit',
-    description: 'The full team kit, as worn by the Kurent athletes. Sleeveless top and shorts in one set.',
-    details: ['Sleeveless top + shorts', 'Save vs. buying separately', 'Tonal KRT monogram', 'Star-ring badge'],
+    images: { Black: 'assets/krt-team-kit-dirty-hands.jpg' },
+    description: 'The KRT Team training kit. Black tee with "Dirty Hands Clean Form" on the chest and the KRT monogram, plus matching shorts.',
+    details: ['T-shirt + shorts set', '"Dirty Hands Clean Form" chest print', 'KRT monogram on chest and left leg', 'KRT team neck label'],
     colors: [{ name: 'Black', swatch: '#0d0d0d', art: { base: '#121212', ink: '#262626', accent: '#ff5a1f' } }],
     sizes: ['XS', 'S', 'M', 'L', 'XL']
   },

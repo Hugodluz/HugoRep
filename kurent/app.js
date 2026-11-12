@@ -24,84 +24,13 @@
     }
   };
 
-  /* ---------------- Placeholder product art (SVG) ---------------- */
-  let svgUid = 0;
-  function camoPattern(id, c) {
-    return `<pattern id="${id}" width="80" height="80" patternUnits="userSpaceOnUse">
-      <rect width="80" height="80" fill="${c[0]}"/>
-      <path d="M5 10c12-8 22 2 30-4s16 6 10 14-20 4-26 10S0 22 5 10Z" fill="${c[1]}"/>
-      <path d="M45 40c10-6 24 0 28 10s-10 14-18 10-20-2-18-10 4-8 8-10Z" fill="${c[2]}"/>
-      <path d="M10 55c8-4 18 2 16 10s-14 10-20 6-4-14 4-16Z" fill="${c[3]}"/>
-      <path d="M55 5c6-2 14 2 12 8s-10 4-14 2-4-8 2-10Z" fill="${c[2]}"/>
-      <path d="M30 30c4-3 10-1 9 4s-7 6-10 3-2-5 1-7Z" fill="${c[3]}"/>
-    </pattern>`;
-  }
-
+  /* ---------------- Product image ----------------
+     Real photo from p.images[colourName]; otherwise a neutral "photo coming soon" tile. */
   function productArt(p, colorIdx = 0) {
     const color = p.colors[colorIdx] || p.colors[0];
-    if (p.images && p.images[color.name]) {
-      return `<img src="${p.images[color.name]}" alt="${p.name} in ${color.name}" loading="lazy">`;
-    }
-    const a = color.art;
-    const uid = 'k' + (++svgUid);
-    let defs = '';
-    let fill = a.base;
-    if (a.camo) { defs += camoPattern(uid + 'c', a.camo); fill = `url(#${uid}c)`; }
-    const ink = a.ink, acc = a.accent || a.ink;
-    const mono = (x, y, s = 1) => `<text x="${x}" y="${y}" font-family="Archivo, sans-serif" font-weight="900" font-size="${18 * s}" letter-spacing="1" fill="${ink}" text-anchor="middle">KRT</text>`;
-    const star = (x, y, r = 9) => `<g transform="translate(${x} ${y})"><circle r="${r}" fill="none" stroke="${acc}" stroke-width="1.6"/><path d="M0 -${r * 0.55} L${r * 0.16} -${r * 0.16} L${r * 0.55} 0 L${r * 0.16} ${r * 0.16} L0 ${r * 0.55} L-${r * 0.16} ${r * 0.16} L-${r * 0.55} 0 L-${r * 0.16} -${r * 0.16} Z" fill="${acc}"/></g>`;
-    let body = '';
-
-    switch (p.shape) {
-      case 'tee':
-        body = `<path d="M120 70 L160 52 Q200 72 240 52 L280 70 L330 112 L302 146 L276 128 L276 330 L124 330 L124 128 L98 146 L70 112 Z" fill="${fill}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/>
-          <path d="M160 52 Q200 80 240 52" fill="none" stroke="rgba(0,0,0,.3)" stroke-width="3"/>
-          <text x="200" y="168" font-family="Archivo, sans-serif" font-weight="900" font-size="26" fill="${ink}" text-anchor="middle" letter-spacing="2">KURENT</text>
-          <text x="200" y="188" font-family="JetBrains Mono, monospace" font-size="10" fill="${ink}" text-anchor="middle" letter-spacing="4">SPORT LIFE</text>`;
-        break;
-      case 'tank':
-        body = `<path d="M150 50 Q160 110 200 112 Q240 110 250 50 L272 56 Q262 110 282 150 L282 330 L118 330 L118 150 Q138 110 128 56 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>
-          ${mono(200, 200, 1.6)}${star(250, 140)}`;
-        break;
-      case 'shorts':
-        body = `<path d="M110 90 L290 90 L306 300 L216 300 L200 190 L184 300 L94 300 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>
-          <rect x="110" y="90" width="180" height="18" fill="rgba(255,255,255,.04)"/>
-          ${mono(146, 270, .9)}${star(262, 140, 8)}`;
-        break;
-      case 'kit':
-        body = `<g transform="translate(-60 -10) scale(.8)"><path d="M150 50 Q160 110 200 112 Q240 110 250 50 L272 56 Q262 110 282 150 L282 330 L118 330 L118 150 Q138 110 128 56 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>${mono(200, 200, 1.6)}${star(250, 140)}</g>
-          <g transform="translate(150 120) scale(.72)"><path d="M110 90 L290 90 L306 300 L216 300 L200 190 L184 300 L94 300 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>${mono(146, 270, .9)}</g>`;
-        break;
-      case 'tracksuit':
-        body = `<defs><linearGradient id="${uid}v" x1="0" x2="1"><stop offset="0" stop-color="${a.base}"/><stop offset=".5" stop-color="${a.ink}"/><stop offset="1" stop-color="${a.base}"/></linearGradient></defs>
-          <path d="M70 60 L150 40 L170 60 L170 260 L90 260 L90 140 L66 210 L40 200 Z" fill="url(#${uid}v)"/>
-          <path d="M170 60 L150 40 M110 60 L110 260" stroke="${acc}" stroke-opacity=".5" stroke-width="1"/>
-          <path d="M210 70 L330 70 L344 340 L286 340 L270 150 L254 340 L196 340 Z" fill="url(#${uid}v)"/>
-          <text x="130" y="110" font-family="Cormorant Garamond, serif" font-style="italic" font-size="16" fill="${acc}" text-anchor="middle">krtp</text>`;
-        break;
-      case 'shirt':
-        body = `<defs><pattern id="${uid}p" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="${a.base}"/><rect x="4.5" width="1" height="10" fill="${a.ink}"/></pattern></defs>
-          <path d="M120 70 L170 50 L200 90 L230 50 L280 70 L330 130 L300 160 L276 136 L276 330 L124 330 L124 136 L100 160 L70 130 Z" fill="url(#${uid}p)" stroke="${a.ink}" stroke-width="1.5"/>
-          <path d="M170 50 L200 90 L230 50 L216 46 L200 70 L184 46 Z" fill="${a.base}" stroke="${acc}" stroke-opacity=".5"/>
-          <line x1="200" y1="90" x2="200" y2="330" stroke="${a.base}" stroke-width="4"/>
-          ${[120, 160, 200, 240, 280].map((y) => `<circle cx="200" cy="${y}" r="3" fill="${acc}" fill-opacity=".8"/>`).join('')}`;
-        break;
-      case 'painting':
-        body = `<defs><radialGradient id="${uid}g" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="${a.ink}"/><stop offset="1" stop-color="${a.base}"/></radialGradient></defs>
-          <rect x="70" y="40" width="260" height="310" fill="#1a1612" stroke="${acc}" stroke-opacity=".5" stroke-width="2"/>
-          <rect x="86" y="56" width="228" height="278" fill="url(#${uid}g)"/>
-          <path d="M200 300 C185 250 175 220 190 180 C200 150 196 120 200 96 C204 120 200 150 210 180 C225 220 215 250 200 300 Z" fill="${acc}" fill-opacity=".85"/>
-          <circle cx="200" cy="90" r="11" fill="${acc}"/>
-          <path d="M86 280 Q150 250 200 300 Q250 250 314 280 L314 334 L86 334 Z" fill="#050807" fill-opacity=".8"/>`;
-        break;
-      case 'sculpture':
-        body = `<defs><linearGradient id="${uid}s" x1="0" x2="1"><stop offset="0" stop-color="${a.ink}"/><stop offset=".55" stop-color="${acc}"/><stop offset="1" stop-color="${a.ink}"/></linearGradient></defs>
-          <rect x="140" y="300" width="120" height="50" fill="#16181d" stroke="rgba(255,255,255,.08)"/>
-          <path d="M200 70 C222 70 230 92 224 110 C238 130 246 170 236 210 C230 240 222 268 226 300 L174 300 C178 268 170 240 164 210 C154 170 162 130 176 110 C170 92 178 70 200 70 Z" fill="url(#${uid}s)"/>
-          <ellipse cx="200" cy="350" rx="90" ry="8" fill="#000" fill-opacity=".5"/>`;
-        break;
-    }
-    return `<svg viewBox="0 0 400 400" role="img" aria-label="${p.name} in ${color.name} (placeholder illustration)" preserveAspectRatio="xMidYMid meet"><defs>${defs}</defs>${body}</svg>`;
+    const src = p.images && (p.images[color.name] || Object.values(p.images)[0]);
+    if (src) return `<img class="photo" src="${src}" alt="${p.name} in ${color.name}" loading="lazy">`;
+    return `<div class="no-photo" role="img" aria-label="${p.name}: photo coming soon"><span>Photo coming soon</span></div>`;
   }
 
   function swatchStyle(sw) {
