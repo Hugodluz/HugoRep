@@ -1,0 +1,590 @@
+/* =========================================================
+   KURENT — app logic (mock store, cart, checkout, waitlist)
+   ========================================================= */
+(function () {
+  'use strict';
+
+  const CFG = window.KURENT_CONFIG;
+  const PRODUCTS = window.KURENT_PRODUCTS;
+  const ATHLETES = window.KURENT_ATHLETES;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+
+  const fmt = new Intl.NumberFormat(CFG.locale, { style: 'currency', currency: CFG.currency });
+  const money = (n) => fmt.format(n);
+  const byId = (id) => PRODUCTS.find((p) => p.id === id);
+  const PILLAR_LABEL = { movement: 'Kurent Movement', team: 'Kurent Team', krtp: 'Keep Rising Through Pain' };
+
+  const store = {
+    get(key, fallback) {
+      try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
+    },
+    set(key, val) {
+      try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* storage unavailable */ }
+    }
+  };
+
+  /* ---------------- Placeholder product art (SVG) ---------------- */
+  let svgUid = 0;
+  function camoPattern(id, c) {
+    return `<pattern id="${id}" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="${c[0]}"/>
+      <path d="M5 10c12-8 22 2 30-4s16 6 10 14-20 4-26 10S0 22 5 10Z" fill="${c[1]}"/>
+      <path d="M45 40c10-6 24 0 28 10s-10 14-18 10-20-2-18-10 4-8 8-10Z" fill="${c[2]}"/>
+      <path d="M10 55c8-4 18 2 16 10s-14 10-20 6-4-14 4-16Z" fill="${c[3]}"/>
+      <path d="M55 5c6-2 14 2 12 8s-10 4-14 2-4-8 2-10Z" fill="${c[2]}"/>
+      <path d="M30 30c4-3 10-1 9 4s-7 6-10 3-2-5 1-7Z" fill="${c[3]}"/>
+    </pattern>`;
+  }
+
+  function productArt(p, colorIdx = 0) {
+    const color = p.colors[colorIdx] || p.colors[0];
+    if (p.images && p.images[color.name]) {
+      return `<img src="${p.images[color.name]}" alt="${p.name} in ${color.name}" loading="lazy">`;
+    }
+    const a = color.art;
+    const uid = 'k' + (++svgUid);
+    let defs = '';
+    let fill = a.base;
+    if (a.camo) { defs += camoPattern(uid + 'c', a.camo); fill = `url(#${uid}c)`; }
+    const ink = a.ink, acc = a.accent || a.ink;
+    const mono = (x, y, s = 1) => `<text x="${x}" y="${y}" font-family="Archivo, sans-serif" font-weight="900" font-size="${18 * s}" letter-spacing="1" fill="${ink}" text-anchor="middle">KRT</text>`;
+    const star = (x, y, r = 9) => `<g transform="translate(${x} ${y})"><circle r="${r}" fill="none" stroke="${acc}" stroke-width="1.6"/><path d="M0 -${r * 0.55} L${r * 0.16} -${r * 0.16} L${r * 0.55} 0 L${r * 0.16} ${r * 0.16} L0 ${r * 0.55} L-${r * 0.16} ${r * 0.16} L-${r * 0.55} 0 L-${r * 0.16} -${r * 0.16} Z" fill="${acc}"/></g>`;
+    let body = '';
+
+    switch (p.shape) {
+      case 'tee':
+        body = `<path d="M120 70 L160 52 Q200 72 240 52 L280 70 L330 112 L302 146 L276 128 L276 330 L124 330 L124 128 L98 146 L70 112 Z" fill="${fill}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/>
+          <path d="M160 52 Q200 80 240 52" fill="none" stroke="rgba(0,0,0,.3)" stroke-width="3"/>
+          <text x="200" y="168" font-family="Archivo, sans-serif" font-weight="900" font-size="26" fill="${ink}" text-anchor="middle" letter-spacing="2">KURENT</text>
+          <text x="200" y="188" font-family="JetBrains Mono, monospace" font-size="10" fill="${ink}" text-anchor="middle" letter-spacing="4">SPORT LIFE</text>`;
+        break;
+      case 'tank':
+        body = `<path d="M150 50 Q160 110 200 112 Q240 110 250 50 L272 56 Q262 110 282 150 L282 330 L118 330 L118 150 Q138 110 128 56 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>
+          ${mono(200, 200, 1.6)}${star(250, 140)}`;
+        break;
+      case 'shorts':
+        body = `<path d="M110 90 L290 90 L306 300 L216 300 L200 190 L184 300 L94 300 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>
+          <rect x="110" y="90" width="180" height="18" fill="rgba(255,255,255,.04)"/>
+          ${mono(146, 270, .9)}${star(262, 140, 8)}`;
+        break;
+      case 'kit':
+        body = `<g transform="translate(-60 -10) scale(.8)"><path d="M150 50 Q160 110 200 112 Q240 110 250 50 L272 56 Q262 110 282 150 L282 330 L118 330 L118 150 Q138 110 128 56 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>${mono(200, 200, 1.6)}${star(250, 140)}</g>
+          <g transform="translate(150 120) scale(.72)"><path d="M110 90 L290 90 L306 300 L216 300 L200 190 L184 300 L94 300 Z" fill="${fill}" stroke="#2a2a2a" stroke-width="1.5"/>${mono(146, 270, .9)}</g>`;
+        break;
+      case 'tracksuit':
+        body = `<defs><linearGradient id="${uid}v" x1="0" x2="1"><stop offset="0" stop-color="${a.base}"/><stop offset=".5" stop-color="${a.ink}"/><stop offset="1" stop-color="${a.base}"/></linearGradient></defs>
+          <path d="M70 60 L150 40 L170 60 L170 260 L90 260 L90 140 L66 210 L40 200 Z" fill="url(#${uid}v)"/>
+          <path d="M170 60 L150 40 M110 60 L110 260" stroke="${acc}" stroke-opacity=".5" stroke-width="1"/>
+          <path d="M210 70 L330 70 L344 340 L286 340 L270 150 L254 340 L196 340 Z" fill="url(#${uid}v)"/>
+          <text x="130" y="110" font-family="Cormorant Garamond, serif" font-style="italic" font-size="16" fill="${acc}" text-anchor="middle">krtp</text>`;
+        break;
+      case 'shirt':
+        body = `<defs><pattern id="${uid}p" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="${a.base}"/><rect x="4.5" width="1" height="10" fill="${a.ink}"/></pattern></defs>
+          <path d="M120 70 L170 50 L200 90 L230 50 L280 70 L330 130 L300 160 L276 136 L276 330 L124 330 L124 136 L100 160 L70 130 Z" fill="url(#${uid}p)" stroke="${a.ink}" stroke-width="1.5"/>
+          <path d="M170 50 L200 90 L230 50 L216 46 L200 70 L184 46 Z" fill="${a.base}" stroke="${acc}" stroke-opacity=".5"/>
+          <line x1="200" y1="90" x2="200" y2="330" stroke="${a.base}" stroke-width="4"/>
+          ${[120, 160, 200, 240, 280].map((y) => `<circle cx="200" cy="${y}" r="3" fill="${acc}" fill-opacity=".8"/>`).join('')}`;
+        break;
+      case 'painting':
+        body = `<defs><radialGradient id="${uid}g" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="${a.ink}"/><stop offset="1" stop-color="${a.base}"/></radialGradient></defs>
+          <rect x="70" y="40" width="260" height="310" fill="#1a1612" stroke="${acc}" stroke-opacity=".5" stroke-width="2"/>
+          <rect x="86" y="56" width="228" height="278" fill="url(#${uid}g)"/>
+          <path d="M200 300 C185 250 175 220 190 180 C200 150 196 120 200 96 C204 120 200 150 210 180 C225 220 215 250 200 300 Z" fill="${acc}" fill-opacity=".85"/>
+          <circle cx="200" cy="90" r="11" fill="${acc}"/>
+          <path d="M86 280 Q150 250 200 300 Q250 250 314 280 L314 334 L86 334 Z" fill="#050807" fill-opacity=".8"/>`;
+        break;
+      case 'sculpture':
+        body = `<defs><linearGradient id="${uid}s" x1="0" x2="1"><stop offset="0" stop-color="${a.ink}"/><stop offset=".55" stop-color="${acc}"/><stop offset="1" stop-color="${a.ink}"/></linearGradient></defs>
+          <rect x="140" y="300" width="120" height="50" fill="#16181d" stroke="rgba(255,255,255,.08)"/>
+          <path d="M200 70 C222 70 230 92 224 110 C238 130 246 170 236 210 C230 240 222 268 226 300 L174 300 C178 268 170 240 164 210 C154 170 162 130 176 110 C170 92 178 70 200 70 Z" fill="url(#${uid}s)"/>
+          <ellipse cx="200" cy="350" rx="90" ry="8" fill="#000" fill-opacity=".5"/>`;
+        break;
+    }
+    return `<svg viewBox="0 0 400 400" role="img" aria-label="${p.name} in ${color.name} (placeholder illustration)" preserveAspectRatio="xMidYMid meet"><defs>${defs}</defs>${body}</svg>`;
+  }
+
+  function swatchStyle(sw) {
+    if (sw === 'camo-blue') return 'background: radial-gradient(circle at 30% 30%, #3f5677 30%, transparent 31%), radial-gradient(circle at 70% 65%, #1b2638 28%, transparent 29%), #2a3a52';
+    if (sw === 'camo-olive') return 'background: radial-gradient(circle at 30% 30%, #626a43 30%, transparent 31%), radial-gradient(circle at 70% 65%, #33371f 28%, transparent 29%), #4a4f33';
+    return `background:${sw}`;
+  }
+
+  /* ---------------- Product grid ---------------- */
+  function renderProducts() {
+    $$('.products').forEach((grid) => {
+      const pillar = grid.dataset.pillar;
+      const cat = grid.dataset.category;
+      const items = [];
+      PRODUCTS.filter((p) => p.pillar === pillar && (!cat || p.category === cat)).forEach((p) => {
+        if (p.splitColors) p.colors.forEach((c, i) => items.push({ p, ci: i, split: true }));
+        else items.push({ p, ci: 0, split: false });
+      });
+      grid.innerHTML = items.map(({ p, ci, split }) => `
+        <article class="card reveal" data-id="${p.id}" data-color="${ci}"${split ? ' data-split' : ''}>
+          <button class="card__media" data-open="${p.id}" aria-label="View ${p.name}">
+            ${p.limited ? `<span class="badge badge--limited card__badge">${p.edition === 1 ? '1 of 1' : 'Limited'}</span>` : ''}
+            <div class="card__art" data-art>${productArt(p, ci)}</div>
+            <span class="card__quick">Quick view</span>
+          </button>
+          <div class="card__body">
+            <div class="card__row">
+              <h4 class="card__name">${p.name}</h4>
+              <span class="card__price">${money(p.price)}</span>
+            </div>
+            <div class="card__row card__row--sub">
+              ${split
+                ? `<span class="card__meta card__meta--color"><i class="swatch swatch--sm" style="${swatchStyle(p.colors[ci].swatch)}"></i>${p.colors[ci].name}</span>`
+                : p.colors.length > 1
+                ? `<div class="swatches" role="group" aria-label="Colour">${p.colors.map((c, i) => `<button class="swatch${i === 0 ? ' is-active' : ''}" style="${swatchStyle(c.swatch)}" data-swatch="${i}" aria-label="${c.name}" title="${c.name}"></button>`).join('')}</div>`
+                : `<span class="card__meta">${p.colors[0].name}</span>`}
+              <span class="card__meta">${p.limited ? (p.edition === 1 ? 'Unique piece' : `Edition of ${p.edition}`) : split ? `${p.colors.length} colourways` : `${p.colors.length} colour${p.colors.length > 1 ? 's' : ''}`}</span>
+            </div>
+          </div>
+        </article>`).join('');
+    });
+
+    // swatch -> swap card art
+    $$('.card').forEach((card) => {
+      const p = byId(card.dataset.id);
+      $$('[data-swatch]', card).forEach((sw) => sw.addEventListener('click', () => {
+        $$('[data-swatch]', card).forEach((s) => s.classList.remove('is-active'));
+        sw.classList.add('is-active');
+        card.dataset.color = sw.dataset.swatch;
+        $('[data-art]', card).innerHTML = productArt(p, +sw.dataset.swatch);
+      }));
+      $('[data-open]', card).addEventListener('click', () => openProduct(p.id, +(card.dataset.color || 0)));
+    });
+  }
+
+  /* ---------------- Modal / overlay helpers ---------------- */
+  const overlay = $('#overlay');
+  let openLayer = null;
+  let lastFocus = null;
+
+  function showLayer(el) {
+    if (openLayer && openLayer !== el) hideLayer(openLayer, true);
+    lastFocus = document.activeElement;
+    openLayer = el;
+    overlay.hidden = false;
+    if (el.classList.contains('drawer')) { el.classList.add('is-open'); el.setAttribute('aria-hidden', 'false'); }
+    else el.hidden = false;
+    requestAnimationFrame(() => { overlay.classList.add('is-visible'); el.classList.add('is-visible'); });
+    document.body.classList.add('no-scroll');
+    const focusable = el.querySelector('button, [href], input, select');
+    if (focusable) setTimeout(() => focusable.focus(), 50);
+  }
+  function hideLayer(el, swapping) {
+    if (!el) return;
+    el.classList.remove('is-visible');
+    if (el.classList.contains('drawer')) { el.classList.remove('is-open'); el.setAttribute('aria-hidden', 'true'); }
+    else setTimeout(() => { if (!el.classList.contains('is-visible')) el.hidden = true; }, 250);
+    if (!swapping) {
+      overlay.classList.remove('is-visible');
+      setTimeout(() => { if (!openLayer) overlay.hidden = true; }, 250);
+      document.body.classList.remove('no-scroll');
+      openLayer = null;
+      if (lastFocus) lastFocus.focus();
+    }
+  }
+  overlay.addEventListener('click', () => hideLayer(openLayer));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && openLayer) hideLayer(openLayer); });
+  $$('[data-close]').forEach((b) => b.addEventListener('click', () => hideLayer(b.closest('.modal, .drawer'))));
+
+  /* ---------------- Product detail ---------------- */
+  const pm = { product: null, color: 0, size: null };
+
+  function openProduct(id, colorIdx = 0) {
+    const p = byId(id);
+    pm.product = p; pm.color = colorIdx; pm.size = null;
+    const modal = $('#productModal');
+    modal.dataset.pillar = p.pillar;
+    $('#pmPillar').textContent = PILLAR_LABEL[p.pillar] + (p.category === 'art' ? ' · Gallery' : '');
+    $('#pmTitle').textContent = p.name;
+    $('#pmPrice').innerHTML = money(p.price) + (p.limited ? ` <span class="badge badge--limited">${p.edition === 1 ? '1 of 1' : 'Limited'}</span>` : '');
+    $('#pmDesc').textContent = p.description;
+    const meaning = $('#pmMeaning');
+    if (p.meaning) { meaning.hidden = false; meaning.innerHTML = `<span>Meaning</span><p>${p.meaning}</p>`; } else meaning.hidden = true;
+    $('#pmDetails').innerHTML = p.details.map((d) => `<li>${d}</li>`).join('');
+    $('#pmStock').textContent = p.limited
+      ? (p.edition === 1 ? 'One piece only. Once it is gone, it is gone.' : `Limited edition of ${p.edition}. Will not be restocked.`)
+      : 'In stock. Ships in 2–4 business days (preview).';
+    renderPmOptions();
+    showLayer(modal);
+  }
+
+  function renderPmOptions() {
+    const p = pm.product;
+    $('#pmMedia').innerHTML = productArt(p, pm.color);
+    $('#pmColors').innerHTML = `<p class="pm__label">Colour: <strong>${p.colors[pm.color].name}</strong></p>
+      <div class="swatches swatches--lg">${p.colors.map((c, i) => `<button class="swatch${i === pm.color ? ' is-active' : ''}" style="${swatchStyle(c.swatch)}" data-c="${i}" aria-label="${c.name}" aria-pressed="${i === pm.color}"></button>`).join('')}</div>`;
+    $('#pmSizes').innerHTML = p.sizes.length
+      ? `<p class="pm__label">Size${pm.size ? `: <strong>${pm.size}</strong>` : ''}</p>
+         <div class="sizes">${p.sizes.map((s) => `<button class="size${s === pm.size ? ' is-active' : ''}" data-s="${s}" aria-pressed="${s === pm.size}">${s}</button>`).join('')}</div>`
+      : '';
+    $$('#pmColors [data-c]').forEach((b) => b.addEventListener('click', () => { pm.color = +b.dataset.c; renderPmOptions(); }));
+    $$('#pmSizes [data-s]').forEach((b) => b.addEventListener('click', () => { pm.size = b.dataset.s; renderPmOptions(); }));
+    const add = $('#pmAdd');
+    add.textContent = p.sizes.length && !pm.size ? 'Select a size' : (p.category === 'art' ? 'Reserve this piece' : 'Add to cart');
+  }
+
+  $('#pmAdd').addEventListener('click', () => {
+    const p = pm.product;
+    if (p.sizes.length && !pm.size) {
+      $('#pmSizes').classList.remove('shake'); void $('#pmSizes').offsetWidth; $('#pmSizes').classList.add('shake');
+      return;
+    }
+    const ok = addToCart(p.id, p.colors[pm.color].name, pm.size);
+    if (ok) {
+      hideLayer($('#productModal'), true);
+      openCart();
+    }
+  });
+
+  /* ---------------- Cart ---------------- */
+  let cart = store.get('kurent_cart', []);
+  const lineKey = (id, color, size) => [id, color, size || ''].join('|');
+  const maxQty = (p) => (p.edition === 1 ? 1 : p.category === 'art' ? 2 : 10);
+
+  function addToCart(id, color, size) {
+    const p = byId(id);
+    const key = lineKey(id, color, size);
+    const line = cart.find((l) => l.key === key);
+    if (line) {
+      if (line.qty >= maxQty(p)) { toast(p.edition === 1 ? 'This piece is one of one: already in your cart.' : 'Maximum quantity reached for this item.'); return line.qty > 0; }
+      line.qty++;
+    } else cart.push({ key, id, color, size, qty: 1 });
+    saveCart();
+    toast(`Added: ${p.name}`);
+    return true;
+  }
+  function saveCart() { store.set('kurent_cart', cart); renderCart(); }
+
+  function totals() {
+    const subtotal = cart.reduce((s, l) => s + byId(l.id).price * l.qty, 0);
+    const shipping = subtotal === 0 ? 0 : subtotal >= CFG.freeShippingFrom ? 0 : CFG.shippingFlat;
+    return { subtotal, shipping, total: subtotal + shipping, count: cart.reduce((s, l) => s + l.qty, 0) };
+  }
+
+  function renderCart() {
+    cart = cart.filter((l) => byId(l.id)); // drop products removed from data.js
+    const t = totals();
+    const count = $('#cartCount');
+    count.textContent = t.count;
+    count.classList.toggle('has-items', t.count > 0);
+    count.classList.remove('bump'); void count.offsetWidth; if (t.count) count.classList.add('bump');
+
+    const items = $('#cartItems');
+    if (!cart.length) {
+      items.innerHTML = `<div class="cart-empty"><p>Your cart is empty.</p><a href="#movement" class="btn btn--ghost btn--sm" data-close-cart>Start with Movement</a></div>`;
+      $('#cartFoot').hidden = true;
+    } else {
+      items.innerHTML = cart.map((l) => {
+        const p = byId(l.id);
+        const ci = Math.max(0, p.colors.findIndex((c) => c.name === l.color));
+        return `<div class="line" data-key="${l.key}">
+          <div class="line__art" data-pillar="${p.pillar}">${productArt(p, ci)}</div>
+          <div class="line__info">
+            <p class="line__name">${p.name}</p>
+            <p class="line__meta">${l.color}${l.size ? ' · ' + l.size : ''}</p>
+            <div class="qty">
+              <button data-q="-1" aria-label="Decrease quantity">−</button>
+              <span>${l.qty}</span>
+              <button data-q="1" aria-label="Increase quantity" ${l.qty >= maxQty(p) ? 'disabled' : ''}>+</button>
+            </div>
+          </div>
+          <div class="line__end">
+            <p class="line__price">${money(p.price * l.qty)}</p>
+            <button class="line__remove" data-remove>Remove</button>
+          </div>
+        </div>`;
+      }).join('');
+      $('#cartFoot').hidden = false;
+    }
+    $('#cartSubtotal').textContent = money(t.subtotal);
+    $('#cartShipping').textContent = t.subtotal === 0 ? '—' : t.shipping === 0 ? 'Free' : money(t.shipping);
+    $('#cartTotal').textContent = money(t.total);
+    const left = CFG.freeShippingFrom - t.subtotal;
+    $('#shipNote').textContent = left > 0 ? `Add ${money(left)} more for free shipping.` : 'You get free shipping.';
+
+    $$('.line').forEach((row) => {
+      const line = cart.find((l) => l.key === row.dataset.key);
+      $$('[data-q]', row).forEach((b) => b.addEventListener('click', () => {
+        line.qty += +b.dataset.q;
+        if (line.qty <= 0) cart = cart.filter((l) => l !== line);
+        saveCart();
+      }));
+      $('[data-remove]', row).addEventListener('click', () => { cart = cart.filter((l) => l !== line); saveCart(); });
+    });
+    const closeLink = $('[data-close-cart]', items);
+    if (closeLink) closeLink.addEventListener('click', () => hideLayer($('#cartDrawer')));
+  }
+
+  function openCart() { showLayer($('#cartDrawer')); }
+  $('#cartOpen').addEventListener('click', openCart);
+
+  /* ---------------- Checkout (simulated) ---------------- */
+  const co = { details: null };
+
+  function renderSummary() {
+    const t = totals();
+    $('#coSummary').innerHTML = `<h4>Order summary</h4>
+      <ul>${cart.map((l) => { const p = byId(l.id); return `<li><span>${l.qty} × ${p.name}<small>${l.color}${l.size ? ' · ' + l.size : ''}</small></span><span>${money(p.price * l.qty)}</span></li>`; }).join('')}</ul>
+      <div class="totals">
+        <div><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+        <div><span>Shipping</span><span>${t.shipping === 0 ? 'Free' : money(t.shipping)}</span></div>
+        <div class="totals__grand"><span>Total</span><span>${money(t.total)}</span></div>
+      </div>`;
+  }
+
+  function setStep(n) {
+    $$('#coSteps li').forEach((li, i) => { li.classList.toggle('is-active', i === n); li.classList.toggle('is-done', i < n); });
+    $('#coDetails').hidden = n !== 0;
+    $('#coPayment').hidden = n !== 1;
+    $('#coDone').hidden = n !== 2;
+    $('#coSummary').hidden = n === 2;
+  }
+
+  $('#checkoutBtn').addEventListener('click', () => {
+    if (!cart.length) return;
+    renderSummary();
+    setStep(0);
+    showLayer($('#checkoutModal'));
+  });
+
+  function fieldError(input, msg) {
+    const field = input.closest('.field');
+    field.classList.toggle('has-error', !!msg);
+    const err = $('.field__error', field);
+    if (err) err.textContent = msg || '';
+    return !msg;
+  }
+  const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+  $('#coDetails').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = e.target;
+    let ok = true;
+    $$('input[required]', f).forEach((i) => {
+      let msg = i.value.trim() ? '' : 'Required';
+      if (!msg && i.type === 'email' && !emailOk(i.value.trim())) msg = 'Enter a valid email';
+      ok = fieldError(i, msg) && ok;
+    });
+    if (!ok) { $('.has-error input', f).focus(); return; }
+    co.details = Object.fromEntries(new FormData(f));
+    setStep(1);
+    $('#co-card').focus();
+  });
+
+  $('#coBack').addEventListener('click', () => setStep(0));
+
+  // light input formatting
+  $('#co-card').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim(); });
+  $('#co-exp').addEventListener('input', (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 4); e.target.value = d.length > 2 ? d.slice(0, 2) + ' / ' + d.slice(2) : d; });
+  $('#co-cvc').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+
+  $('#coPayment').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const card = $('#co-card'), exp = $('#co-exp'), cvc = $('#co-cvc');
+    let ok = true;
+    const digits = card.value.replace(/\s/g, '');
+    ok = fieldError(card, digits.length < 16 ? 'Enter the 16-digit test card' : digits !== '4242424242424242' ? 'Test mode: use 4242 4242 4242 4242' : '') && ok;
+    const m = exp.value.match(/^(\d{2}) \/ (\d{2})$/);
+    let expMsg = 'Use MM / YY';
+    if (m) {
+      const mm = +m[1], yy = 2000 + +m[2];
+      const now = new Date();
+      expMsg = mm < 1 || mm > 12 ? 'Invalid month' : (yy < now.getFullYear() || (yy === now.getFullYear() && mm < now.getMonth() + 1)) ? 'Card expired' : '';
+    }
+    ok = fieldError(exp, expMsg) && ok;
+    ok = fieldError(cvc, cvc.value.length < 3 ? 'Enter 3–4 digits' : '') && ok;
+    if (!ok) return;
+
+    const btn = $('#coPay');
+    btn.disabled = true; btn.textContent = 'Processing…';
+    setTimeout(() => {
+      const order = 'KR-' + Date.now().toString(36).toUpperCase().slice(-6);
+      const orders = store.get('kurent_test_orders', []);
+      orders.push({ order, at: new Date().toISOString(), customer: co.details, lines: cart, totals: totals() });
+      store.set('kurent_test_orders', orders);
+      $('[data-co-name]').textContent = co.details.first;
+      $('[data-co-email]').textContent = co.details.email;
+      $('[data-co-order]').textContent = order;
+      cart = []; saveCart();
+      $('#coPayment').reset(); $('#coDetails').reset();
+      btn.disabled = false; btn.textContent = 'Pay';
+      setStep(2);
+    }, 1200);
+  });
+
+  // show total on the Pay button
+  const observer = new MutationObserver(() => { if (!$('#coPayment').hidden) $('#coPay').textContent = `Pay ${money(totals().total)}`; });
+  observer.observe($('#coPayment'), { attributes: true, attributeFilter: ['hidden'] });
+
+  /* ---------------- Waitlist ---------------- */
+  const wl = $('#waitlistForm');
+  wl.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = $('#wl-name'), email = $('#wl-email');
+    let ok = fieldError(name, name.value.trim() ? '' : 'Tell us your first name');
+    ok = fieldError(email, !email.value.trim() ? 'Email is required' : !emailOk(email.value.trim()) ? 'Enter a valid email' : '') && ok;
+    if (!ok) { $('.has-error input', wl).focus(); return; }
+
+    const ig = $('#wl-ig').value.trim().replace(/^@?/, '@');
+    const entry = {
+      firstName: name.value.trim(),
+      email: email.value.trim().toLowerCase(),
+      interest: (new FormData(wl)).get('interest') || 'All',
+      instagram: ig === '@' ? '' : ig,
+      createdAt: new Date().toISOString(),
+      source: 'kurent-site'
+    };
+
+    const btn = $('button[type=submit]', wl);
+    btn.disabled = true; btn.textContent = 'Joining…';
+
+    const list = store.get('kurent_waitlist', []);
+    if (!list.some((x) => x.email === entry.email)) list.push(entry);
+    store.set('kurent_waitlist', list);
+
+    if (CFG.waitlistEndpoint) {
+      try {
+        const res = await fetch(CFG.waitlistEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(entry)
+        });
+        if (!res.ok) throw new Error(res.status);
+      } catch (err) {
+        btn.disabled = false; btn.textContent = 'Join the waitlist';
+        toast('Something went wrong. Please try again.');
+        return;
+      }
+    }
+
+    $('[data-name]', $('#waitlistSuccess')).textContent = entry.firstName;
+    wl.hidden = true;
+    $('#waitlistSuccess').hidden = false;
+    $('#waitlistSuccess').classList.add('is-visible');
+  });
+
+  // Dev helper: in the browser console run kurentExportWaitlist() to download a CSV
+  window.kurentExportWaitlist = function () {
+    const list = store.get('kurent_waitlist', []);
+    const cols = ['firstName', 'email', 'interest', 'instagram', 'createdAt'];
+    const csv = [cols.join(',')].concat(list.map((r) => cols.map((c) => `"${String(r[c] || '').replace(/"/g, '""')}"`).join(','))).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = 'kurent-waitlist.csv';
+    a.click();
+    return list.length + ' entries';
+  };
+
+  /* ---------------- Countdown ---------------- */
+  function startCountdown() {
+    const el = $('[data-countdown]');
+    if (!el) return;
+    const target = new Date(CFG.nextDropDate).getTime();
+    const pad = (n) => String(n).padStart(2, '0');
+    const tick = () => {
+      let diff = Math.max(0, target - Date.now());
+      const d = Math.floor(diff / 864e5); diff -= d * 864e5;
+      const h = Math.floor(diff / 36e5); diff -= h * 36e5;
+      const m = Math.floor(diff / 6e4); diff -= m * 6e4;
+      const s = Math.floor(diff / 1e3);
+      $('[data-unit=d]', el).textContent = pad(d);
+      $('[data-unit=h]', el).textContent = pad(h);
+      $('[data-unit=m]', el).textContent = pad(m);
+      $('[data-unit=s]', el).textContent = pad(s);
+      if (target - Date.now() <= 0) { $('.drop__label', $('#krtpDrop')).innerHTML = '<span class="badge badge--limited">Live</span> The drop is open'; clearInterval(timer); }
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+  }
+
+  /* ---------------- Media ---------------- */
+  function renderVideo() {
+    const slot = $('#videoSlot');
+    if (CFG.youtubeId) {
+      slot.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(CFG.youtubeId)}?rel=0" title="Kurent featured video" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      slot.innerHTML = `<div class="video-ph"><span class="video-ph__play" aria-hidden="true"></span><p>Featured film</p><small>Coming soon on YouTube</small></div>`;
+    }
+  }
+  function wireSocials() {
+    $$('[data-social]').forEach((a) => {
+      const url = CFG.socials[a.dataset.social];
+      if (url) { a.href = url; a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  }
+
+  /* ---------------- Athletes ---------------- */
+  function renderAthletes() {
+    $('#athletesGrid').innerHTML = ATHLETES.map((a, i) => `
+      <article class="athlete reveal">
+        <div class="athlete__photo">
+          ${a.photo ? `<img src="${a.photo}" alt="${a.name}" loading="lazy">` : `<span class="athlete__mono">${String(i + 1).padStart(2, '0')}</span>`}
+        </div>
+        <div class="athlete__info">
+          <h4>${a.name}</h4>
+          <p>${a.discipline} · ${a.base}</p>
+        </div>
+      </article>`).join('');
+  }
+
+  /* ---------------- Header / nav ---------------- */
+  function wireHeader() {
+    const header = $('.header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+    const btn = $('#menuBtn'), nav = $('#nav');
+    const setMenu = (open) => { nav.classList.toggle('is-open', open); btn.classList.toggle('is-open', open); btn.setAttribute('aria-expanded', open); };
+    btn.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
+    $$('a', nav).forEach((a) => a.addEventListener('click', () => setMenu(false)));
+
+    // active section highlight + dark-section header theme
+    const links = $$('a', nav);
+    const sections = ['movement', 'team', 'krtp', 'media', 'mission', 'join'].map((id) => document.getElementById(id));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          links.forEach((l) => l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id));
+          document.body.dataset.section = en.target.id;
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach((s) => s && io.observe(s));
+  }
+
+  /* ---------------- Reveal on scroll ---------------- */
+  function wireReveal() {
+    const els = $$('.reveal');
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach((el) => el.classList.add('is-in')); return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach((el) => io.observe(el));
+  }
+
+  /* ---------------- Toast ---------------- */
+  let toastTimer;
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg; t.classList.add('is-visible');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('is-visible'), 2400);
+  }
+
+  /* ---------------- Init ---------------- */
+  renderProducts();
+  renderAthletes();
+  renderVideo();
+  wireSocials();
+  renderCart();
+  startCountdown();
+  wireHeader();
+  wireReveal();
+  $('#year').textContent = new Date().getFullYear();
+})();

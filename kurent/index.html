@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kurent — Spritu forti, menti forti</title>
+  <meta name="description" content="Kurent: movement and lifestyle brand from Cape Verde x Portugal. Join the waitlist for the first drop.">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header" id="top">
+    <div class="header__inner">
+      <a href="#top" class="logo" aria-label="Kurent home">
+        <!-- Replace with the real logo: <img src="assets/logo.svg" alt="Kurent"> -->
+        <span class="logo__mark" aria-hidden="true">K</span>
+        <span class="logo__word">KURENT</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#movement">Movement</a>
+        <a href="#team">Team</a>
+        <a href="#krtp">KRTP</a>
+        <a href="#media">Media</a>
+        <a href="#mission">Mission</a>
+        <a href="#join" class="nav__join">Join</a>
+      </nav>
+
+      <div class="header__actions">
+        <button class="cart-btn" id="cartOpen" aria-label="Open cart" aria-controls="cartDrawer">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="cart-btn__count" id="cartCount">0</span>
+        </button>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero__grain" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="eyebrow reveal">Cape Verde × Portugal</p>
+        <h1 class="hero__title reveal">
+          <span>Move.</span>
+          <span>Rise.</span>
+          <span class="hero__title--outline">Repeat.</span>
+        </h1>
+        <p class="hero__lede reveal">Kurent is a movement. A team. A mindset. Clothing and art for people who move with intent and keep rising, whatever it costs.</p>
+        <div class="hero__ctas reveal">
+          <a href="#join" class="btn btn--light">Join the waitlist</a>
+          <a href="#movement" class="btn btn--ghost">Explore the drop</a>
+        </div>
+      </div>
+      <div class="hero__pillars reveal" aria-hidden="true">
+        <span>Movement</span><span class="dot"></span><span>Team</span><span class="dot"></span><span>KRTP</span>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Spritu forti, menti forti</span><span>✦</span>
+        <span>Un Kabeza, un Sonhu</span><span>✦</span>
+        <span>Keep Rising Through Pain</span><span>✦</span>
+        <span>Spritu forti, menti forti</span><span>✦</span>
+        <span>Un Kabeza, un Sonhu</span><span>✦</span>
+        <span>Keep Rising Through Pain</span><span>✦</span>
+      </div>
+    </div>
+
+    <!-- ============ PILLAR 1: MOVEMENT ============ -->
+    <section class="pillar pillar--movement" id="movement" aria-labelledby="movement-title">
+      <div class="container">
+        <div class="pillar__head">
+          <p class="pillar__index reveal">01 / Kurent Movement</p>
+          <h2 class="pillar__slogan reveal" id="movement-title">Spritu forti,<br>menti forti</h2>
+          <div class="pillar__copy reveal">
+            <p>Run the coast at sunrise. Hang from a bar in the park. Paddle out. Play one more set. It doesn't matter how you move, only that you do.</p>
+            <p>Movement is for everyone: a life full of experience, health and energy, carried in the clothes you live in.</p>
+          </div>
+        </div>
+        <div class="products" data-pillar="movement"></div>
+      </div>
+    </section>
+
+    <!-- ============ PILLAR 2: TEAM ============ -->
+    <section class="pillar pillar--team" id="team" aria-labelledby="team-title">
+      <div class="team__streaks" aria-hidden="true"></div>
+      <div class="container">
+        <div class="pillar__head">
+          <p class="pillar__index reveal">02 / Kurent Team</p>
+          <h2 class="pillar__slogan reveal" id="team-title">Un Kabeza,<br>un Sonhu</h2>
+          <div class="pillar__copy reveal">
+            <p>Athletes on a mission to go pro. Every session measured, every rep earned, every week a little further than the last.</p>
+            <p>The performance kit is built for the work: light, sharp and made to move as fast as they do.</p>
+          </div>
+        </div>
+        <div class="products" data-pillar="team"></div>
+      </div>
+    </section>
+
+    <!-- ============ PILLAR 3: KRTP ============ -->
+    <section class="pillar pillar--krtp" id="krtp" aria-labelledby="krtp-title">
+      <div class="krtp__glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="pillar__head">
+          <p class="pillar__index reveal">03 / Keep Rising Through Pain</p>
+          <h2 class="pillar__slogan reveal" id="krtp-title">Keep Rising<br><em>Through Pain</em></h2>
+          <div class="pillar__copy reveal">
+            <p>Pain is a teacher. What it asks of you, it gives back as strength. Life is better in motion, and the mind is stronger once it stops being afraid.</p>
+            <p>KRTP is where the brand turns inward: self-expression, a free mind, fearlessness. Garments and art made in small numbers, for those who understand.</p>
+          </div>
+        </div>
+
+        <div class="drop reveal" id="krtpDrop">
+          <div class="drop__label"><span class="badge badge--limited">Limited</span> Next drop in</div>
+          <div class="countdown" data-countdown>
+            <div><span data-unit="d">00</span><small>Days</small></div>
+            <div><span data-unit="h">00</span><small>Hrs</small></div>
+            <div><span data-unit="m">00</span><small>Min</small></div>
+            <div><span data-unit="s">00</span><small>Sec</small></div>
+          </div>
+        </div>
+
+        <h3 class="subhead reveal">Garments</h3>
+        <div class="products" data-pillar="krtp" data-category="apparel"></div>
+
+        <h3 class="subhead reveal">The Gallery</h3>
+        <p class="gallery__intro reveal">One painting. A few sculptures. Each piece has a name and a meaning.</p>
+        <div class="products products--gallery" data-pillar="krtp" data-category="art"></div>
+      </div>
+    </section>
+
+    <!-- ============ MEDIA ============ -->
+    <section class="media" id="media" aria-labelledby="media-title">
+      <div class="container">
+        <p class="eyebrow reveal">Kurent Media</p>
+        <h2 class="section-title reveal" id="media-title">See it moving.</h2>
+        <div class="media__grid">
+          <div class="media__video reveal" id="videoSlot">
+            <!-- Filled by app.js: YouTube embed if CONFIG.youtubeId is set, placeholder otherwise -->
+          </div>
+          <div class="media__side">
+            <ul class="socials reveal">
+              <li><a href="#" data-social="instagram"><span>Instagram</span><span class="socials__handle">@kurent</span></a></li>
+              <li><a href="#" data-social="tiktok"><span>TikTok</span><span class="socials__handle">@kurent</span></a></li>
+              <li><a href="#" data-social="youtube"><span>YouTube</span><span class="socials__handle">Kurent</span></a></li>
+              <li><a href="#" data-social="strava"><span>Strava</span><span class="socials__handle">Kurent Club</span></a></li>
+            </ul>
+            <div class="community reveal">
+              <h3>Join the community</h3>
+              <p>Training clips, behind the scenes and the first look at every drop. Follow along and move with us.</p>
+              <a href="#join" class="btn btn--light btn--sm">Get early access</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MISSION + ATHLETES ============ -->
+    <section class="mission" id="mission" aria-labelledby="mission-title">
+      <div class="container">
+        <div class="mission__intro">
+          <p class="eyebrow reveal">Our Mission</p>
+          <h2 class="mission__statement reveal" id="mission-title">To get people moving, and to keep them rising.</h2>
+        </div>
+        <div class="mission__pillars">
+          <article class="reveal">
+            <span class="mission__num">01</span>
+            <h3>Move every day</h3>
+            <p>Health, energy and experience come from motion. We make the clothes, you choose the movement.</p>
+          </article>
+          <article class="reveal">
+            <span class="mission__num">02</span>
+            <h3>Back the dreamers</h3>
+            <p>Our athletes chase a professional future. Kurent stands behind them, from the first session to the podium.</p>
+          </article>
+          <article class="reveal">
+            <span class="mission__num">03</span>
+            <h3>Free the mind</h3>
+            <p>Through art and self-expression, we turn pain into strength and fear into fuel.</p>
+          </article>
+          <article class="reveal">
+            <span class="mission__num">04</span>
+            <h3>Rooted in two homes</h3>
+            <p>Born between Cape Verde and Portugal. Two cultures, one way of moving forward.</p>
+          </article>
+        </div>
+
+        <div class="athletes">
+          <div class="athletes__head">
+            <h3 class="section-title section-title--sm reveal">The athletes</h3>
+            <p class="reveal">The people who wear Kurent hardest.</p>
+          </div>
+          <div class="athletes__grid" id="athletesGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WAITLIST ============ -->
+    <section class="join" id="join" aria-labelledby="join-title">
+      <div class="container join__inner">
+        <div class="join__copy">
+          <p class="eyebrow reveal">The Waitlist</p>
+          <h2 class="section-title reveal" id="join-title">Be first in line.</h2>
+          <p class="reveal">Early access to the first drop, launch news and things we only share with the list. No spam, ever.</p>
+        </div>
+
+        <form class="form reveal" id="waitlistForm" novalidate>
+          <div class="field">
+            <label for="wl-name">First name</label>
+            <input id="wl-name" name="firstName" type="text" autocomplete="given-name" required>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="wl-email">Email</label>
+            <input id="wl-email" name="email" type="email" autocomplete="email" required>
+            <span class="field__error" aria-live="polite"></span>
+          </div>
+          <fieldset class="field field--chips">
+            <legend>I'm most interested in</legend>
+            <div class="chips">
+              <label><input type="radio" name="interest" value="Movement"><span>Movement</span></label>
+              <label><input type="radio" name="interest" value="Team"><span>Team</span></label>
+              <label><input type="radio" name="interest" value="KRTP"><span>KRTP</span></label>
+              <label><input type="radio" name="interest" value="All" checked><span>All</span></label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="wl-ig">Instagram <span class="optional">(optional)</span></label>
+            <input id="wl-ig" name="instagram" type="text" placeholder="@yourhandle" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn--light btn--block">Join the waitlist</button>
+          <p class="form__note">By joining you agree to receive emails from Kurent. Unsubscribe anytime.</p>
+        </form>
+
+        <div class="form-success" id="waitlistSuccess" hidden>
+          <span class="form-success__icon" aria-hidden="true">✦</span>
+          <h3>You're on the list, <span data-name></span>.</h3>
+          <p>We'll email you before the first drop goes live. Spritu forti, menti forti.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <a href="#top" class="logo logo--footer"><span class="logo__mark" aria-hidden="true">K</span><span class="logo__word">KURENT</span></a>
+        <p class="footer__tag">Cape Verde × Portugal</p>
+      </div>
+      <ul class="footer__socials">
+        <li><a href="#" data-social="instagram">Instagram</a></li>
+        <li><a href="#" data-social="tiktok">TikTok</a></li>
+        <li><a href="#" data-social="youtube">YouTube</a></li>
+        <li><a href="#" data-social="strava">Strava</a></li>
+      </ul>
+      <p class="footer__legal">© <span id="year"></span> Kurent. Preview store: test data only, no real payments.</p>
+    </div>
+  </footer>
+
+  <!-- ============ PRODUCT MODAL ============ -->
+  <div class="overlay" id="overlay" hidden></div>
+
+  <div class="modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="pmTitle" hidden>
+    <button class="modal__close" data-close aria-label="Close">×</button>
+    <div class="pm">
+      <div class="pm__media" id="pmMedia"></div>
+      <div class="pm__info">
+        <p class="pm__pillar" id="pmPillar"></p>
+        <h3 class="pm__title" id="pmTitle"></h3>
+        <p class="pm__price" id="pmPrice"></p>
+        <p class="pm__desc" id="pmDesc"></p>
+        <div class="pm__meaning" id="pmMeaning" hidden></div>
+        <div class="pm__opts" id="pmColors"></div>
+        <div class="pm__opts" id="pmSizes"></div>
+        <p class="pm__stock" id="pmStock"></p>
+        <button class="btn btn--light btn--block" id="pmAdd">Add to cart</button>
+        <ul class="pm__details" id="pmDetails"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CART DRAWER ============ -->
+  <aside class="drawer" id="cartDrawer" aria-labelledby="cartTitle" aria-hidden="true">
+    <div class="drawer__head">
+      <h3 id="cartTitle">Your cart</h3>
+      <button class="drawer__close" data-close aria-label="Close cart">×</button>
+    </div>
+    <div class="drawer__body" id="cartItems"></div>
+    <div class="drawer__foot" id="cartFoot">
+      <div class="totals">
+        <div><span>Subtotal</span><span id="cartSubtotal">€0.00</span></div>
+        <div><span>Shipping</span><span id="cartShipping">—</span></div>
+        <div class="totals__grand"><span>Total</span><span id="cartTotal">€0.00</span></div>
+      </div>
+      <p class="drawer__note" id="shipNote"></p>
+      <button class="btn btn--light btn--block" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- ============ CHECKOUT ============ -->
+  <div class="modal modal--checkout" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="coTitle" hidden>
+    <button class="modal__close" data-close aria-label="Close">×</button>
+    <div class="co">
+      <div class="co__main">
+        <h3 id="coTitle">Checkout</h3>
+        <ol class="co__steps" id="coSteps">
+          <li class="is-active">Details</li><li>Payment</li><li>Done</li>
+        </ol>
+
+        <form id="coDetails" class="co__form" novalidate>
+          <div class="grid-2">
+            <div class="field"><label for="co-first">First name</label><input id="co-first" name="first" required autocomplete="given-name"><span class="field__error"></span></div>
+            <div class="field"><label for="co-last">Last name</label><input id="co-last" name="last" required autocomplete="family-name"><span class="field__error"></span></div>
+          </div>
+          <div class="field"><label for="co-email">Email</label><input id="co-email" name="email" type="email" required autocomplete="email"><span class="field__error"></span></div>
+          <div class="field"><label for="co-address">Address</label><input id="co-address" name="address" required autocomplete="street-address"><span class="field__error"></span></div>
+          <div class="grid-3">
+            <div class="field"><label for="co-city">City</label><input id="co-city" name="city" required autocomplete="address-level2"><span class="field__error"></span></div>
+            <div class="field"><label for="co-zip">Postal code</label><input id="co-zip" name="zip" required autocomplete="postal-code"><span class="field__error"></span></div>
+            <div class="field"><label for="co-country">Country</label>
+              <select id="co-country" name="country" autocomplete="country-name">
+                <option>Portugal</option><option>Cabo Verde</option><option>Spain</option><option>France</option><option>Netherlands</option><option>United Kingdom</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn--light btn--block">Continue to payment</button>
+        </form>
+
+        <form id="coPayment" class="co__form" novalidate hidden>
+          <div class="test-banner">Test mode. Use card <code>4242 4242 4242 4242</code>, any future date, any CVC. Nothing is charged.</div>
+          <div class="field"><label for="co-card">Card number</label><input id="co-card" name="card" inputmode="numeric" autocomplete="off" placeholder="4242 4242 4242 4242" required><span class="field__error"></span></div>
+          <div class="grid-2">
+            <div class="field"><label for="co-exp">Expiry</label><input id="co-exp" name="exp" placeholder="MM / YY" autocomplete="off" required><span class="field__error"></span></div>
+            <div class="field"><label for="co-cvc">CVC</label><input id="co-cvc" name="cvc" inputmode="numeric" placeholder="123" autocomplete="off" required><span class="field__error"></span></div>
+          </div>
+          <div class="co__btns">
+            <button type="button" class="btn btn--ghost" id="coBack">Back</button>
+            <button type="submit" class="btn btn--light" id="coPay">Pay</button>
+          </div>
+        </form>
+
+        <div id="coDone" class="co__done" hidden>
+          <span class="form-success__icon" aria-hidden="true">✦</span>
+          <h4>Order confirmed</h4>
+          <p>Thank you, <span data-co-name></span>. Your order <strong data-co-order></strong> is in.</p>
+          <p class="muted">A confirmation would be sent to <span data-co-email></span>. This is a preview store: no payment was taken and nothing will ship.</p>
+          <button class="btn btn--light" data-close>Keep exploring</button>
+        </div>
+      </div>
+      <aside class="co__summary" id="coSummary"></aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
