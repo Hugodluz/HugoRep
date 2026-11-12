@@ -363,7 +363,7 @@
     const entry = {
       firstName: name.value.trim(),
       email: email.value.trim().toLowerCase(),
-      interest: (new FormData(wl)).get('interest') || 'All',
+      interest: (new FormData(wl)).get('interest') || 'Movement',
       instagram: ig === '@' ? '' : ig,
       createdAt: new Date().toISOString(),
       source: 'kurent-site'

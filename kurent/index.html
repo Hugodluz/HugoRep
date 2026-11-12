@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -25,8 +25,6 @@
 
       <nav class="nav" id="nav" aria-label="Main">
         <a href="#movement">Movement</a>
-        <a href="#team">Team</a>
-        <a href="#krtp">KRTP</a>
         <a href="#media">Media</a>
         <a href="#mission">Mission</a>
         <a href="#join" class="nav__join">Join</a>
@@ -62,7 +60,7 @@
         </div>
       </div>
       <div class="hero__pillars reveal" aria-hidden="true">
-        <span>Movement</span><span class="dot"></span><span>Team</span><span class="dot"></span><span>KRTP</span>
+        <span>Spritu forti</span><span class="dot"></span><span>Menti forti</span>
       </div>
     </section>
 
@@ -70,11 +68,11 @@
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
         <span>Spritu forti, menti forti</span><span>✦</span>
-        <span>Un Kabeza, un Sonhu</span><span>✦</span>
-        <span>Keep Rising Through Pain</span><span>✦</span>
         <span>Spritu forti, menti forti</span><span>✦</span>
-        <span>Un Kabeza, un Sonhu</span><span>✦</span>
-        <span>Keep Rising Through Pain</span><span>✦</span>
+        <span>Spritu forti, menti forti</span><span>✦</span>
+        <span>Spritu forti, menti forti</span><span>✦</span>
+        <span>Spritu forti, menti forti</span><span>✦</span>
+        <span>Spritu forti, menti forti</span><span>✦</span>
       </div>
     </div>
 
@@ -90,54 +88,6 @@
           </div>
         </div>
         <div class="products" data-pillar="movement"></div>
-      </div>
-    </section>
-
-    <!-- ============ PILLAR 2: TEAM ============ -->
-    <section class="pillar pillar--team" id="team" aria-labelledby="team-title">
-      <div class="team__streaks" aria-hidden="true"></div>
-      <div class="container">
-        <div class="pillar__head">
-          <p class="pillar__index reveal">02 / Kurent Team</p>
-          <h2 class="pillar__slogan reveal" id="team-title">Un Kabeza,<br>un Sonhu</h2>
-          <div class="pillar__copy reveal">
-            <p>Athletes on a mission to go pro. Every session measured, every rep earned, every week a little further than the last.</p>
-            <p>The performance kit is built for the work: light, sharp and made to move as fast as they do.</p>
-          </div>
-        </div>
-        <div class="products" data-pillar="team"></div>
-      </div>
-    </section>
-
-    <!-- ============ PILLAR 3: KRTP ============ -->
-    <section class="pillar pillar--krtp" id="krtp" aria-labelledby="krtp-title">
-      <div class="krtp__glow" aria-hidden="true"></div>
-      <div class="container">
-        <div class="pillar__head">
-          <p class="pillar__index reveal">03 / Keep Rising Through Pain</p>
-          <h2 class="pillar__slogan reveal" id="krtp-title">Keep Rising<br><em>Through Pain</em></h2>
-          <div class="pillar__copy reveal">
-            <p>Pain is a teacher. What it asks of you, it gives back as strength. Life is better in motion, and the mind is stronger once it stops being afraid.</p>
-            <p>KRTP is where the brand turns inward: self-expression, a free mind, fearlessness. Garments and art made in small numbers, for those who understand.</p>
-          </div>
-        </div>
-
-        <div class="drop reveal" id="krtpDrop">
-          <div class="drop__label"><span class="badge badge--limited">Limited</span> Next drop in</div>
-          <div class="countdown" data-countdown>
-            <div><span data-unit="d">00</span><small>Days</small></div>
-            <div><span data-unit="h">00</span><small>Hrs</small></div>
-            <div><span data-unit="m">00</span><small>Min</small></div>
-            <div><span data-unit="s">00</span><small>Sec</small></div>
-          </div>
-        </div>
-
-        <h3 class="subhead reveal">Garments</h3>
-        <div class="products" data-pillar="krtp" data-category="apparel"></div>
-
-        <h3 class="subhead reveal">The Gallery</h3>
-        <p class="gallery__intro reveal">One painting. A few sculptures. Each piece has a name and a meaning.</p>
-        <div class="products products--gallery" data-pillar="krtp" data-category="art"></div>
       </div>
     </section>
 
@@ -227,15 +177,6 @@
             <input id="wl-email" name="email" type="email" autocomplete="email" required>
             <span class="field__error" aria-live="polite"></span>
           </div>
-          <fieldset class="field field--chips">
-            <legend>I'm most interested in</legend>
-            <div class="chips">
-              <label><input type="radio" name="interest" value="Movement"><span>Movement</span></label>
-              <label><input type="radio" name="interest" value="Team"><span>Team</span></label>
-              <label><input type="radio" name="interest" value="KRTP"><span>KRTP</span></label>
-              <label><input type="radio" name="interest" value="All" checked><span>All</span></label>
-            </div>
-          </fieldset>
           <div class="field">
             <label for="wl-ig">Instagram <span class="optional">(optional)</span></label>
             <input id="wl-ig" name="instagram" type="text" placeholder="@yourhandle" autocomplete="off">
@@ -366,7 +307,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js?v=3"></script>
-  <script src="app.js?v=3"></script>
+  <script src="data.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
