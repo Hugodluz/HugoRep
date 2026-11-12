@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -35,7 +35,7 @@
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
           <span class="cart-btn__count" id="cartCount">0</span>
         </button>
-        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sideMenu">
           <span></span><span></span>
         </button>
       </div>
@@ -241,6 +241,29 @@
     </div>
   </div>
 
+  <!-- ============ SIDE MENU (mobile) ============ -->
+  <aside class="drawer side-menu" id="sideMenu" aria-label="Menu" aria-hidden="true">
+    <div class="side-menu__head">
+      <a href="#top" class="logo" data-menu-link><span class="logo__mark" aria-hidden="true">K</span><span class="logo__word">KURENT</span></a>
+      <button class="side-menu__close" data-close aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="side-menu__links" aria-label="Sections">
+      <a href="#movement" data-menu-link>Movement</a>
+      <a href="#media" data-menu-link>Media</a>
+      <a href="#mission" data-menu-link>Mission</a>
+      <a href="#join" data-menu-link>Join</a>
+    </nav>
+    <div class="side-menu__foot">
+      <p>Follow</p>
+      <ul class="side-menu__socials">
+        <li><a href="#" data-social="instagram">Instagram</a></li>
+        <li><a href="#" data-social="tiktok">TikTok</a></li>
+        <li><a href="#" data-social="youtube">YouTube</a></li>
+        <li><a href="#" data-social="strava">Strava</a></li>
+      </ul>
+    </div>
+  </aside>
+
   <!-- ============ CART DRAWER ============ -->
   <aside class="drawer" id="cartDrawer" aria-labelledby="cartTitle" aria-hidden="true">
     <div class="drawer__head">
@@ -315,7 +338,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js?v=5"></script>
-  <script src="app.js?v=5"></script>
+  <script src="data.js?v=6"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

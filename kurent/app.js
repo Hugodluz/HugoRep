@@ -467,10 +467,11 @@
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-    const btn = $('#menuBtn'), nav = $('#nav');
-    const setMenu = (open) => { nav.classList.toggle('is-open', open); btn.classList.toggle('is-open', open); btn.setAttribute('aria-expanded', open); };
-    btn.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
-    $$('a', nav).forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    const btn = $('#menuBtn'), nav = $('#nav'), side = $('#sideMenu');
+    btn.addEventListener('click', () => { showLayer(side); btn.setAttribute('aria-expanded', 'true'); });
+    $$('[data-menu-link]', side).forEach((l) => l.addEventListener('click', () => hideLayer(side)));
+    new MutationObserver(() => { if (!side.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false'); })
+      .observe(side, { attributes: true, attributeFilter: ['class'] });
 
     // active section highlight + dark-section header theme
     const links = $$('a', nav);
