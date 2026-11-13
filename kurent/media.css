@@ -201,3 +201,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* No counter and no top progress line */
 .mbar__count, .mprogress { display: none !important; }
+
+/* Official logo in a small white chip */
+.mbar__chip { display: inline-flex; align-items: center; background: #fff; border-radius: 100px; padding: 7px 12px; }
+.mbar__chip img { display: block; height: 18px; width: auto; }
