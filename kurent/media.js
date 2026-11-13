@@ -5,6 +5,7 @@
   'use strict';
   const CFG = window.KURENT_CONFIG || { socials: {} };
   const ITEMS = window.KURENT_MEDIA || [];
+  const BRANDS = window.KURENT_BRANDS || {};
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -26,7 +27,7 @@
         <div class="slide__media">${media}</div>
         ${it.type === 'video' ? '<span class="slide__state" aria-hidden="true"></span>' : ''}
         <div class="slide__info">
-          <p class="slide__tag">${esc(it.tag)}</p>
+          ${it.brand && BRANDS[it.brand] ? `<p class="slide__tag slide__tag--mark"><img src="${esc(BRANDS[it.brand].white)}" alt="${esc(BRANDS[it.brand].name)}"></p>` : `<p class="slide__tag">${esc(it.tag)}</p>`}
           <h2 class="slide__title">${esc(it.title)}</h2>
           ${it.link ? `<a class="slide__link" href="${esc(it.link.href)}">${esc(it.link.label)} <span aria-hidden="true">&rarr;</span></a>` : ''}
           ${i === 0 ? '<span class="slide__hint" aria-hidden="true"><i></i></span>' : ''}
@@ -39,6 +40,7 @@
   const endHTML = `
     <section class="slide slide--end" id="more" data-index="${ITEMS.length}" aria-label="End of feed">
       <div class="end slide__info" style="position:relative;left:auto;right:auto;bottom:auto;width:auto;max-width:none">
+        <img class="end__mono" src="assets/krt-monogram-white.png" alt="" aria-hidden="true">
         <h2 class="slide__title">Move with us.</h2>
         <div class="end__actions">
           <a class="end__btn end__btn--solid" href="index.html#join">Join the waitlist</a>

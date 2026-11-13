@@ -731,3 +731,19 @@ body[data-section] .header.is-scrolled { background: #fff; color: var(--ink); bo
 .footer__socials a { color: var(--ink); }
 .footer__socials a:hover { color: var(--brown); }
 .footer__legal { border-top-color: rgba(0,0,0,.08); }
+
+
+/* ---------- Brand marks: Sport-Life, KRT team, KRT monogram ---------- */
+.tile__brand { display: block; height: 14px; width: auto; margin-bottom: 8px; opacity: .95; }
+@media (min-width: 1024px) { .tile__brand { height: 16px; } }
+.pm__pillar:has(.pm__brand) { line-height: 0; }
+.pm__brand { display: block; height: 20px; width: auto; }
+.block__label--mark { line-height: 0; margin-bottom: 14px; }
+.block__label--mark img { height: 22px; width: auto; }
+@media (min-width: 900px) { .block__label--mark img { height: 26px; } }
+.form-success__mark { display: block; height: 56px; width: auto; margin: 0 auto 18px; }
+.hero__mono { height: 26px; width: auto; opacity: .8; margin-right: 6px; }
+.hero__pillars { align-items: center; }
+
+/* Make the hidden attribute always win over display rules */
+[hidden] { display: none !important; }

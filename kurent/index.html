@@ -9,7 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="icon" type="image/png" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -61,6 +63,7 @@
         </div>
       </div>
       <div class="hero__pillars reveal" aria-hidden="true">
+        <img class="hero__mono" src="assets/krt-monogram-white.png" alt="" width="163" height="282">
         <span>Spritu forti</span><span class="dot"></span><span>Menti forti</span>
       </div>
     </section>
@@ -157,7 +160,7 @@
     <section class="block" id="athletes" aria-labelledby="athletes-title">
       <div class="container">
         <header class="block__head">
-          <p class="block__label reveal">Kurent Team</p>
+          <p class="block__label block__label--mark reveal"><img src="assets/krt-team-wordmark-black.png" alt="KRT team" width="1096" height="213"></p>
           <h2 class="block__title reveal" id="athletes-title">Athletes</h2>
         </header>
         <div class="tile-grid" id="athletesGrid"></div>
@@ -194,7 +197,7 @@
           </form>
 
           <div class="form-success" id="waitlistSuccess" hidden>
-            <span class="form-success__icon" aria-hidden="true">&#10022;</span>
+            <img class="form-success__mark" src="assets/krt-monogram-black.png" alt="" aria-hidden="true" width="163" height="282">
             <h3>You're on the list, <span data-name></span>.</h3>
             <p>We'll email you before the first drop goes live. Spritu forti, menti forti.</p>
           </div>
@@ -340,7 +343,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js?v=10"></script>
-  <script src="app.js?v=10"></script>
+  <script src="data.js?v=11"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>

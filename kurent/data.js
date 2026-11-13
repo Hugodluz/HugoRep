@@ -39,6 +39,7 @@ window.KURENT_CONFIG = {
   shape / art: no longer used for images (kept for reference)
   images: { [colorName]: 'assets/file.jpg' }  -> product photo (no photo = "Photo coming soon" tile)
   splitColors: true -> one card per colour in the grid
+  brand: 'sport-life' | 'krt-team' -> shows that wordmark on the card and in the product view
   videos: { [colorName]: { src, poster } } -> muted looping product video (takes priority over images)
   limited: true  -> shows the "Limited" badge and edition info
   edition: number of pieces (for limited items)
@@ -53,6 +54,7 @@ window.KURENT_PRODUCTS = [
     name: 'Kurent Sport Life Tee',
     price: 35,
     shape: 'tee',
+    brand: 'sport-life',
     splitColors: true,          // show one card per colourway
     videos: { Navy: { src: 'assets/sport-life-tee-concept.mp4', poster: 'assets/sport-life-tee-concept-poster.jpg' } },
     description: 'The everyday tee for a life in motion. Heavyweight cotton, relaxed fit, Kurent Sport Life print on the chest.',
@@ -72,6 +74,7 @@ window.KURENT_PRODUCTS = [
     name: 'Dirty Hands Clean Form Kit',
     price: 95,
     shape: 'kit',
+    brand: 'krt-team',
     images: { Black: 'assets/krt-team-kit-dirty-hands.jpg' },
     description: 'Black tee with "Dirty Hands Clean Form" on the chest and the KRT monogram, plus matching shorts.',
     details: ['T-shirt + shorts set', '"Dirty Hands Clean Form" chest print', 'KRT monogram on chest and left leg', 'KRT team neck label'],
@@ -92,15 +95,16 @@ window.KURENT_ATHLETES = [
 /* Kurent Media feed (media.html) — vertical, one item per screen.
    type: 'video' | 'image'. ratio = width / height of the file (used on desktop
    so each item keeps its real proportions). focus = object-position on phones,
-   where items fill the screen. id is used in links: media.html#training */
+   where items fill the screen. id is used in links: media.html#training
+   brand: 'sport-life' | 'krt-team' shows that wordmark instead of the tag text */
 window.KURENT_MEDIA = [
   { id: 'intro', type: 'video', src: 'assets/krt-logo-vida-e-movimento.mp4', poster: 'assets/krt-logo-vida-e-movimento-poster.jpg', ratio: 9 / 16, focus: '50% 50%',
     tag: 'Kurent Media', title: 'Vida e Movimento', caption: 'Training, product and the people behind Kurent. Scroll to explore.' },
-  { id: 'training', type: 'video', src: 'assets/training-weighted-pullup.mp4', poster: 'assets/training-weighted-pullup-poster.jpg', ratio: 9 / 16, focus: '50% 45%',
+  { id: 'training', brand: 'krt-team', type: 'video', src: 'assets/training-weighted-pullup.mp4', poster: 'assets/training-weighted-pullup-poster.jpg', ratio: 9 / 16, focus: '50% 45%',
     tag: 'Training', title: 'Weighted pull-ups', caption: 'Plates on the belt, chin over the bar. Dirty hands, clean form.' },
-  { id: 'forest', type: 'image', src: 'assets/lifestyle-sport-life-back.jpg', ratio: 1200 / 1477, focus: '50% 60%',
+  { id: 'forest', brand: 'sport-life', type: 'image', src: 'assets/lifestyle-sport-life-back.jpg', ratio: 1200 / 1477, focus: '50% 60%',
     tag: 'Lifestyle', title: 'Spritu forti in the forest', caption: 'The Kurent Sport Life tee, out among the boulders.' },
-  { id: 'tee-concept', type: 'video', src: 'assets/sport-life-tee-concept.mp4', poster: 'assets/sport-life-tee-concept-poster.jpg', ratio: 9 / 16, focus: '50% 50%',
+  { id: 'tee-concept', brand: 'sport-life', type: 'video', src: 'assets/sport-life-tee-concept.mp4', poster: 'assets/sport-life-tee-concept-poster.jpg', ratio: 9 / 16, focus: '50% 50%',
     tag: 'Product', title: 'Concept: the Sport Life tee', caption: 'Front and back of the first Kurent Movement tee.', link: { href: 'index.html#movement', label: 'Shop the tee' } },
   { id: 'dirty-hands', type: 'image', src: 'assets/gym-plates-chain.jpg', ratio: 900 / 1200, focus: '50% 40%',
     tag: 'Training', title: 'Dirty hands, clean form', caption: 'Plates, chain and belt. The tools of the work.' },
@@ -109,3 +113,9 @@ window.KURENT_MEDIA = [
   { id: 'portrait', type: 'image', src: 'assets/lifestyle-portrait-color.jpg', ratio: 1200 / 1600, focus: '50% 35%',
     tag: 'Community', title: 'Vida e movimento', caption: 'Movement is for everyone. This is where it starts.' }
 ];
+
+/* Brand marks (files in assets/, black for light backgrounds, white for dark) */
+window.KURENT_BRANDS = {
+  'sport-life': { name: 'Sport-Life', black: 'assets/sport-life-wordmark-black.png', white: 'assets/sport-life-wordmark-white.png', ratio: 696 / 142 },
+  'krt-team': { name: 'KRT team', black: 'assets/krt-team-wordmark-black.png', white: 'assets/krt-team-wordmark-white.png', ratio: 1096 / 213 }
+};

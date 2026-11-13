@@ -224,3 +224,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .slide { --info-w: 170px; --info-gap: 28px; }
   .slide__title { font-size: 19px; }
 }
+
+
+/* Brand wordmark in place of the tag text; monogram on the end card */
+.slide__tag--mark { line-height: 0; margin-bottom: 10px; }
+.slide__tag--mark img { height: 13px; width: auto; opacity: .9; }
+@media (min-width: 768px) { .slide__tag--mark img { height: 14px; } }
+.end__mono { display: block; height: 64px; width: auto; margin: 0 auto 22px; opacity: .9; }

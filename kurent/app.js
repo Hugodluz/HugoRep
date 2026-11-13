@@ -7,6 +7,8 @@
   const CFG = window.KURENT_CONFIG;
   const PRODUCTS = window.KURENT_PRODUCTS;
   const ATHLETES = window.KURENT_ATHLETES;
+  const BRANDS = window.KURENT_BRANDS || {};
+  const brandImg = (key, tone, cls) => { const b = BRANDS[key]; return b ? `<img class="${cls}" src="${b[tone]}" alt="${b.name}">` : ''; };
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 
@@ -60,6 +62,7 @@
             <div class="tile__media" data-art>${productArt(p, ci)}</div>
             ${p.limited ? `<span class="badge badge--limited tile__badge">Limited</span>` : ''}
             <span class="tile__text">
+              ${p.brand ? brandImg(p.brand, 'white', 'tile__brand') : ''}
               <span class="tile__title">${p.name}</span>
               <span class="tile__sub">${p.colors.length > 1 ? p.colors[ci].name + ' · ' : ''}${money(p.price)}</span>
             </span>
@@ -123,7 +126,7 @@
     pm.product = p; pm.color = colorIdx; pm.size = null;
     const modal = $('#productModal');
     modal.dataset.pillar = p.pillar;
-    $('#pmPillar').textContent = PILLAR_LABEL[p.pillar] + (p.category === 'art' ? ' · Gallery' : '');
+    $('#pmPillar').innerHTML = p.brand ? brandImg(p.brand, 'black', 'pm__brand') : (PILLAR_LABEL[p.pillar] + (p.category === 'art' ? ' · Gallery' : ''));
     $('#pmTitle').textContent = p.name;
     $('#pmPrice').innerHTML = money(p.price) + (p.limited ? ` <span class="badge badge--limited">${p.edition === 1 ? '1 of 1' : 'Limited'}</span>` : '');
     $('#pmDesc').textContent = p.description;
