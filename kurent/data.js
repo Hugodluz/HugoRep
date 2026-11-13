@@ -37,7 +37,8 @@ window.KURENT_CONFIG = {
   colors: [{ name, swatch, art }]  -> 'art' drives the placeholder illustration
   sizes: [] (empty for art)
   shape / art: no longer used for images (kept for reference)
-  images: { [colorName]: 'assets/file.jpg' }  -> product photo (no photo = "Photo coming soon" tile)
+  images: { [colorName]: ['front.jpg', 'back.jpg'] } -> product images; the first is shown on the card,
+    the second appears on hover and both are shown in the product view (imageLabels names them)
   splitColors: true -> one card per colour in the grid
   brand: 'sport-life' | 'krt-team' -> shows that wordmark on the card and in the product view
   videos: { [colorName]: { src, poster } } -> muted looping product video (takes priority over images)
@@ -46,40 +47,58 @@ window.KURENT_CONFIG = {
   meaning: text for art pieces
 */
 window.KURENT_PRODUCTS = [
-  /* ---------- MOVEMENT (accessible) ---------- */
   {
     id: 'mv-sport-life-tee',
     pillar: 'movement',
     category: 'apparel',
+    brand: 'sport-life',
     name: 'Kurent Sport Life Tee',
     price: 35,
-    shape: 'tee',
-    brand: 'sport-life',
-    splitColors: true,          // show one card per colourway
-    videos: { Navy: { src: 'assets/sport-life-tee-concept.mp4', poster: 'assets/sport-life-tee-concept-poster.jpg' } },
-    description: 'The everyday tee for a life in motion. Heavyweight cotton, relaxed fit, Kurent Sport Life print on the chest.',
-    details: ['Heavyweight cotton jersey', 'Relaxed, slightly boxy fit', 'Screen-printed chest graphic', 'Drop 01: not limited'],
-    colors: [
-      { name: 'Navy', swatch: '#1c2433', art: { base: '#1c2433', ink: '#e9e6df' } },
-      { name: 'Blue Camo', swatch: 'camo-blue', art: { camo: ['#2a3a52', '#3f5677', '#1b2638', '#5b7392'], ink: '#f2efe8' } },
-      { name: 'Olive Camo', swatch: 'camo-olive', art: { camo: ['#4a4f33', '#626a43', '#33371f', '#7c7a52'], ink: '#f2efe8' } }
-    ],
+    images: { Black: ['assets/mockup-sport-life-tee-back.jpg'] },
+    description: 'Heavyweight cotton tee with the Kurent Sport Life print on the back: stars, KRT logo, monogram and EST. 2026.',
+    details: ['Heavyweight cotton jersey', 'Relaxed, slightly boxy fit', 'Back print: Kurent Sport Life', 'Drop 01: not limited'],
+    colors: [{ name: 'Black', swatch: '#0d0d0d' }],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
   },
-
   {
-    id: 'mv-dirty-hands-kit',
+    id: 'mv-dirty-hands-tee',
     pillar: 'movement',
     category: 'apparel',
-    name: 'Dirty Hands Clean Form Kit',
-    price: 95,
-    shape: 'kit',
     brand: 'krt-team',
-    images: { Black: 'assets/krt-team-kit-dirty-hands.jpg' },
-    description: 'Black tee with "Dirty Hands Clean Form" on the chest and the KRT monogram, plus matching shorts.',
-    details: ['T-shirt + shorts set', '"Dirty Hands Clean Form" chest print', 'KRT monogram on chest and left leg', 'KRT team neck label'],
-    colors: [{ name: 'Black', swatch: '#0d0d0d', art: { base: '#121212', ink: '#262626', accent: '#ff5a1f' } }],
+    name: 'Dirty Hands Clean Form Tee',
+    price: 35,
+    images: { Black: ['assets/mockup-dirty-hands-tee.jpg'] },
+    description: 'Black tee with "Dirty Hands Clean Form" across the chest and the KRT monogram below.',
+    details: ['Cotton jersey', 'Relaxed fit', 'Chest print with KRT monogram', 'KRT team neck label'],
+    colors: [{ name: 'Black', swatch: '#0d0d0d' }],
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+  },
+  {
+    id: 'mv-monogram-shorts',
+    pillar: 'movement',
+    category: 'apparel',
+    brand: 'krt-team',
+    name: 'Monogram Shorts',
+    price: 45,
+    images: { Black: ['assets/mockup-shorts.jpg'] },
+    description: 'Black training shorts with side pockets and the KRT monogram on the left leg.',
+    details: ['Lightweight training fabric', 'Elastic waistband', 'Two side pockets', 'KRT monogram, left leg'],
+    colors: [{ name: 'Black', swatch: '#0d0d0d' }],
     sizes: ['XS', 'S', 'M', 'L', 'XL']
+  },
+  {
+    id: 'mv-mon-sujo-jacket',
+    pillar: 'movement',
+    category: 'apparel',
+    brand: 'sport-life',
+    name: 'Mon Sujo Dinhero Limpo Jacket',
+    price: 120,
+    images: { Graphite: ['assets/mockup-jacket-front.jpg', 'assets/mockup-jacket-back.jpg'] },
+    imageLabels: ['Front', 'Back'],
+    description: 'Two-tone hooded jacket. KRT logo and monogram on the front; "Mon Sujo Dinhero Limpo" with the Sportlife script on the back.',
+    details: ['Full zip with hood', 'Two-tone grey and graphite', 'Front: KRT logo + monogram', 'Back: Mon Sujo Dinhero Limpo, Sportlife script'],
+    colors: [{ name: 'Graphite', swatch: 'linear-gradient(180deg,#9aa0a4 50%,#3a3e43 50%)' }],
+    sizes: ['S', 'M', 'L', 'XL']
   }
 ];
 
@@ -98,8 +117,6 @@ window.KURENT_ATHLETES = [
    where items fill the screen. id is used in links: media.html#training
    brand: 'sport-life' | 'krt-team' shows that wordmark instead of the tag text */
 window.KURENT_MEDIA = [
-  { id: 'intro', type: 'video', src: 'assets/krt-logo-vida-e-movimento.mp4', poster: 'assets/krt-logo-vida-e-movimento-poster.jpg', ratio: 9 / 16, focus: '50% 50%',
-    tag: 'Kurent Media', title: 'Vida e Movimento', caption: 'Training, product and the people behind Kurent. Scroll to explore.' },
   { id: 'training', brand: 'krt-team', type: 'video', src: 'assets/training-weighted-pullup.mp4', poster: 'assets/training-weighted-pullup-poster.jpg', ratio: 9 / 16, focus: '50% 45%',
     tag: 'Training', title: 'Weighted pull-ups', caption: 'Plates on the belt, chin over the bar. Dirty hands, clean form.' },
   { id: 'forest', brand: 'sport-life', type: 'image', src: 'assets/lifestyle-sport-life-back.jpg', ratio: 1200 / 1477, focus: '50% 60%',

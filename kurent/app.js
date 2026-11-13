@@ -28,17 +28,26 @@
 
   /* ---------------- Product image ----------------
      Real photo from p.images[colourName]; otherwise a neutral "photo coming soon" tile. */
-  function productArt(p, colorIdx = 0, thumb = false) {
+  function imagesFor(p, colorIdx = 0) {
+    const color = p.colors[colorIdx] || p.colors[0];
+    const set = p.images && (p.images[color.name] || Object.values(p.images)[0]);
+    return set ? [].concat(set) : [];
+  }
+  function productArt(p, colorIdx = 0, thumb = false, view = 0) {
     const color = p.colors[colorIdx] || p.colors[0];
     const vid = p.videos && p.videos[color.name];
     if (vid) {
       if (thumb) return `<img class="photo photo--dark" src="${vid.poster}" alt="${p.name} in ${color.name}" loading="lazy">`;
       return `<video class="media-video product-video" src="${vid.src}" poster="${vid.poster}" muted loop playsinline preload="metadata" aria-label="${p.name} in ${color.name}"></video>`;
     }
-    const src = p.images && (p.images[color.name] || Object.values(p.images)[0]);
-    if (src) return `<img class="photo" src="${src}" alt="${p.name} in ${color.name}" loading="lazy">`;
+    const imgs = imagesFor(p, colorIdx);
+    if (imgs.length) {
+      const label = p.imageLabels ? ' (' + (p.imageLabels[view] || '') + ')' : '';
+      return `<img class="photo" src="${imgs[Math.min(view, imgs.length - 1)]}" alt="${p.name}${label}" loading="lazy">`;
+    }
     return `<div class="no-photo" role="img" aria-label="${p.name}: photo coming soon"><span>Photo coming soon</span></div>`;
   }
+
 
   function swatchStyle(sw) {
     if (sw === 'camo-blue') return 'background: radial-gradient(circle at 30% 30%, #3f5677 30%, transparent 31%), radial-gradient(circle at 70% 65%, #1b2638 28%, transparent 29%), #2a3a52';
@@ -56,18 +65,25 @@
         if (p.splitColors) p.colors.forEach((c, i) => items.push({ p, ci: i, split: true }));
         else items.push({ p, ci: 0, split: false });
       });
-      grid.innerHTML = items.map(({ p, ci, split }) => `
-        <article class="card tile reveal" data-id="${p.id}" data-color="${ci}"${split ? ' data-split' : ''}>
-          <button class="tile__hit" data-open="${p.id}" aria-label="View ${p.name}${split ? ' in ' + p.colors[ci].name : ''}">
-            <div class="tile__media" data-art>${productArt(p, ci)}</div>
-            ${p.limited ? `<span class="badge badge--limited tile__badge">Limited</span>` : ''}
-            <span class="tile__text">
-              ${p.brand ? brandImg(p.brand, 'white', 'tile__brand') : ''}
-              <span class="tile__title">${p.name}</span>
-              <span class="tile__sub">${p.colors.length > 1 ? p.colors[ci].name + ' · ' : ''}${money(p.price)}</span>
+      grid.innerHTML = items.map(({ p, ci, split }) => {
+        const imgs = imagesFor(p, ci);
+        return `
+        <article class="card product-card reveal" data-id="${p.id}" data-color="${ci}">
+          <button class="product-card__hit" data-open="${p.id}" aria-label="View ${p.name}">
+            <span class="product-card__media${imgs.length > 1 ? ' has-alt' : ''}" data-art>
+              ${productArt(p, ci)}
+              ${imgs.length > 1 ? `<img class="photo photo--alt" src="${imgs[1]}" alt="" aria-hidden="true" loading="lazy">` : ''}
+              ${p.limited ? `<span class="badge badge--limited tile__badge">Limited</span>` : ''}
+              ${imgs.length > 1 ? `<span class="product-card__views" aria-hidden="true">${(p.imageLabels || []).join(' / ') || imgs.length + ' views'}</span>` : ''}
+            </span>
+            <span class="product-card__text">
+              ${p.brand ? brandImg(p.brand, 'black', 'product-card__brand') : ''}
+              <span class="product-card__name">${p.name}</span>
+              <span class="product-card__price">${money(p.price)}</span>
             </span>
           </button>
-        </article>`).join('');
+        </article>`;
+      }).join('');
     });
 
     // swatch -> swap card art
@@ -119,11 +135,11 @@
   $$('[data-close]').forEach((b) => b.addEventListener('click', () => hideLayer(b.closest('.modal, .drawer'))));
 
   /* ---------------- Product detail ---------------- */
-  const pm = { product: null, color: 0, size: null };
+  const pm = { product: null, color: 0, size: null, view: 0 };
 
   function openProduct(id, colorIdx = 0) {
     const p = byId(id);
-    pm.product = p; pm.color = colorIdx; pm.size = null;
+    pm.product = p; pm.color = colorIdx; pm.size = null; pm.view = 0;
     const modal = $('#productModal');
     modal.dataset.pillar = p.pillar;
     $('#pmPillar').innerHTML = p.brand ? brandImg(p.brand, 'black', 'pm__brand') : (PILLAR_LABEL[p.pillar] + (p.category === 'art' ? ' · Gallery' : ''));
@@ -142,7 +158,11 @@
 
   function renderPmOptions() {
     const p = pm.product;
-    $('#pmMedia').innerHTML = productArt(p, pm.color);
+    const views = imagesFor(p, pm.color);
+    $('#pmMedia').innerHTML = productArt(p, pm.color, false, pm.view) + (views.length > 1
+      ? `<div class="pm__views" role="group" aria-label="Views">${views.map((src, k) => `<button class="pm__view${k === pm.view ? ' is-active' : ''}" data-view="${k}" aria-pressed="${k === pm.view}"><img src="${src}" alt=""><span>${(p.imageLabels && p.imageLabels[k]) || 'View ' + (k + 1)}</span></button>`).join('')}</div>`
+      : '');
+    $$('#pmMedia [data-view]').forEach((b) => b.addEventListener('click', () => { pm.view = +b.dataset.view; renderPmOptions(); }));
     wireVideos($('#pmMedia'));
     $('#pmColors').innerHTML = `<p class="pm__label">Colour: <strong>${p.colors[pm.color].name}</strong></p>
       <div class="swatches swatches--lg">${p.colors.map((c, i) => `<button class="swatch${i === pm.color ? ' is-active' : ''}" style="${swatchStyle(c.swatch)}" data-c="${i}" aria-label="${c.name}" aria-pressed="${i === pm.color}"></button>`).join('')}</div>`;
@@ -150,7 +170,7 @@
       ? `<p class="pm__label">Size${pm.size ? `: <strong>${pm.size}</strong>` : ''}</p>
          <div class="sizes">${p.sizes.map((s) => `<button class="size${s === pm.size ? ' is-active' : ''}" data-s="${s}" aria-pressed="${s === pm.size}">${s}</button>`).join('')}</div>`
       : '';
-    $$('#pmColors [data-c]').forEach((b) => b.addEventListener('click', () => { pm.color = +b.dataset.c; renderPmOptions(); }));
+    $$('#pmColors [data-c]').forEach((b) => b.addEventListener('click', () => { pm.color = +b.dataset.c; pm.view = 0; renderPmOptions(); }));
     $$('#pmSizes [data-s]').forEach((b) => b.addEventListener('click', () => { pm.size = b.dataset.s; renderPmOptions(); }));
     const add = $('#pmAdd');
     add.textContent = p.sizes.length && !pm.size ? 'Select a size' : (p.category === 'art' ? 'Reserve this piece' : 'Add to cart');
