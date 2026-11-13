@@ -55,26 +55,15 @@
         else items.push({ p, ci: 0, split: false });
       });
       grid.innerHTML = items.map(({ p, ci, split }) => `
-        <article class="card reveal" data-id="${p.id}" data-color="${ci}"${split ? ' data-split' : ''}>
-          <button class="card__media" data-open="${p.id}" aria-label="View ${p.name}">
-            ${p.limited ? `<span class="badge badge--limited card__badge">${p.edition === 1 ? '1 of 1' : 'Limited'}</span>` : ''}
-            <div class="card__art" data-art>${productArt(p, ci)}</div>
-            <span class="card__quick">Quick view</span>
+        <article class="card tile reveal" data-id="${p.id}" data-color="${ci}"${split ? ' data-split' : ''}>
+          <button class="tile__hit" data-open="${p.id}" aria-label="View ${p.name}${split ? ' in ' + p.colors[ci].name : ''}">
+            <div class="tile__media" data-art>${productArt(p, ci)}</div>
+            ${p.limited ? `<span class="badge badge--limited tile__badge">Limited</span>` : ''}
+            <span class="tile__text">
+              <span class="tile__title">${p.name}</span>
+              <span class="tile__sub">${p.colors.length > 1 ? p.colors[ci].name + ' · ' : ''}${money(p.price)}</span>
+            </span>
           </button>
-          <div class="card__body">
-            <div class="card__row">
-              <h4 class="card__name">${p.name}</h4>
-              <span class="card__price">${money(p.price)}</span>
-            </div>
-            <div class="card__row card__row--sub">
-              ${split
-                ? `<span class="card__meta card__meta--color"><i class="swatch swatch--sm" style="${swatchStyle(p.colors[ci].swatch)}"></i>${p.colors[ci].name}</span>`
-                : p.colors.length > 1
-                ? `<div class="swatches" role="group" aria-label="Colour">${p.colors.map((c, i) => `<button class="swatch${i === 0 ? ' is-active' : ''}" style="${swatchStyle(c.swatch)}" data-swatch="${i}" aria-label="${c.name}" title="${c.name}"></button>`).join('')}</div>`
-                : `<span class="card__meta">${p.colors[0].name}</span>`}
-              <span class="card__meta">${p.limited ? (p.edition === 1 ? 'Unique piece' : `Edition of ${p.edition}`) : split ? `${p.colors.length} colourways` : `${p.colors.length} colour${p.colors.length > 1 ? 's' : ''}`}</span>
-            </div>
-          </div>
         </article>`).join('');
     });
 
@@ -456,6 +445,27 @@
     });
   }
 
+  /* ---------------- Carousel (stories) ---------------- */
+  function wireCarousels() {
+    $$('[data-carousel]').forEach((c) => {
+      const track = $('[data-track]', c), prev = $('[data-prev]', c), next = $('[data-next]', c), bar = $('[data-progress]', c);
+      const step = () => { const first = track.firstElementChild; return first ? first.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 16) : 300; };
+      const update = () => {
+        const max = track.scrollWidth - track.clientWidth;
+        const ratio = track.scrollWidth ? track.clientWidth / track.scrollWidth : 1;
+        bar.style.width = Math.max(ratio * 100, 8) + '%';
+        bar.style.transform = `translateX(${max > 0 ? (track.scrollLeft / max) * ((1 / Math.max(ratio, .08)) - 1) * 100 : 0}%)`;
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft >= max - 2;
+      };
+      prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    });
+  }
+
   /* ---------------- Media ---------------- */
   function renderVideo() {
     const slot = $('#videoSlot');
@@ -477,14 +487,14 @@
   /* ---------------- Athletes ---------------- */
   function renderAthletes() {
     $('#athletesGrid').innerHTML = ATHLETES.map((a, i) => `
-      <article class="athlete reveal">
-        <div class="athlete__photo">
-          ${a.photo ? `<img src="${a.photo}" alt="${a.name}" loading="lazy">` : `<span class="athlete__mono">${String(i + 1).padStart(2, '0')}</span>`}
+      <article class="tile tile--athlete reveal">
+        <div class="tile__media">
+          ${a.photo ? `<img src="${a.photo}" alt="${a.name}" loading="lazy">` : `<span class="tile__mono" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>`}
         </div>
-        <div class="athlete__info">
-          <h4>${a.name}</h4>
-          <p>${a.discipline} · ${a.base}</p>
-        </div>
+        <span class="tile__text">
+          <span class="tile__title">${a.name}</span>
+          <span class="tile__sub">${a.discipline} · ${a.base}</span>
+        </span>
       </article>`).join('');
   }
 
@@ -502,7 +512,7 @@
 
     // active section highlight + dark-section header theme
     const links = $$('a', nav);
-    const sections = ['movement', 'team', 'krtp', 'media', 'mission', 'join'].map((id) => document.getElementById(id));
+    const sections = ['movement', 'media', 'mission', 'athletes', 'join'].map((id) => document.getElementById(id));
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) {
@@ -541,6 +551,7 @@
   wireSocials();
   renderCart();
   wireVideos();
+  wireCarousels();
   startCountdown();
   wireHeader();
   wireReveal();
