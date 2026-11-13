@@ -26,8 +26,13 @@
 
   /* ---------------- Product image ----------------
      Real photo from p.images[colourName]; otherwise a neutral "photo coming soon" tile. */
-  function productArt(p, colorIdx = 0) {
+  function productArt(p, colorIdx = 0, thumb = false) {
     const color = p.colors[colorIdx] || p.colors[0];
+    const vid = p.videos && p.videos[color.name];
+    if (vid) {
+      if (thumb) return `<img class="photo photo--dark" src="${vid.poster}" alt="${p.name} in ${color.name}" loading="lazy">`;
+      return `<video class="media-video product-video" src="${vid.src}" poster="${vid.poster}" muted loop playsinline preload="metadata" aria-label="${p.name} in ${color.name}"></video>`;
+    }
     const src = p.images && (p.images[color.name] || Object.values(p.images)[0]);
     if (src) return `<img class="photo" src="${src}" alt="${p.name} in ${color.name}" loading="lazy">`;
     return `<div class="no-photo" role="img" aria-label="${p.name}: photo coming soon"><span>Photo coming soon</span></div>`;
@@ -81,6 +86,7 @@
         sw.classList.add('is-active');
         card.dataset.color = sw.dataset.swatch;
         $('[data-art]', card).innerHTML = productArt(p, +sw.dataset.swatch);
+        wireVideos(card);
       }));
       $('[data-open]', card).addEventListener('click', () => openProduct(p.id, +(card.dataset.color || 0)));
     });
@@ -145,6 +151,7 @@
   function renderPmOptions() {
     const p = pm.product;
     $('#pmMedia').innerHTML = productArt(p, pm.color);
+    wireVideos($('#pmMedia'));
     $('#pmColors').innerHTML = `<p class="pm__label">Colour: <strong>${p.colors[pm.color].name}</strong></p>
       <div class="swatches swatches--lg">${p.colors.map((c, i) => `<button class="swatch${i === pm.color ? ' is-active' : ''}" style="${swatchStyle(c.swatch)}" data-c="${i}" aria-label="${c.name}" aria-pressed="${i === pm.color}"></button>`).join('')}</div>`;
     $('#pmSizes').innerHTML = p.sizes.length
@@ -212,7 +219,7 @@
         const p = byId(l.id);
         const ci = Math.max(0, p.colors.findIndex((c) => c.name === l.color));
         return `<div class="line" data-key="${l.key}">
-          <div class="line__art" data-pillar="${p.pillar}">${productArt(p, ci)}</div>
+          <div class="line__art" data-pillar="${p.pillar}">${productArt(p, ci, true)}</div>
           <div class="line__info">
             <p class="line__name">${p.name}</p>
             <p class="line__meta">${l.color}${l.size ? ' · ' + l.size : ''}</p>
@@ -431,13 +438,33 @@
     const timer = setInterval(tick, 1000);
   }
 
+  /* ---------------- Muted videos: play only while visible ---------------- */
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const videoIO = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      const v = en.target;
+      if (en.isIntersecting && !reduceMotion) { v.muted = true; const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
+      else v.pause();
+    });
+  }, { threshold: 0.25 }) : null;
+  function wireVideos(scope = document) {
+    $$('video.media-video', scope).forEach((v) => {
+      v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
+      if (v.dataset.wired) return;
+      v.dataset.wired = '1';
+      if (videoIO) videoIO.observe(v);
+    });
+  }
+
   /* ---------------- Media ---------------- */
   function renderVideo() {
     const slot = $('#videoSlot');
     if (CFG.youtubeId) {
+      slot.hidden = false;
       slot.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(CFG.youtubeId)}?rel=0" title="Kurent featured video" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     } else {
-      slot.innerHTML = `<div class="video-ph"><span class="video-ph__play" aria-hidden="true"></span><p>Featured film</p><small>Coming soon on YouTube</small></div>`;
+      slot.hidden = true;
+      return;
     }
   }
   function wireSocials() {
@@ -513,6 +540,7 @@
   renderVideo();
   wireSocials();
   renderCart();
+  wireVideos();
   startCountdown();
   wireHeader();
   wireReveal();

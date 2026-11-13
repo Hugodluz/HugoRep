@@ -574,3 +574,23 @@ body[data-section="team"] .header.is-scrolled { background: rgba(8, 8, 8, .8); c
 }
 .hero__photo img { opacity: .55; }
 @media (min-width: 900px) { .hero__photo img { opacity: .9; } }
+
+/* ---------- Videos & media reel ---------- */
+.media-video { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
+.product-video { object-fit: contain; }
+.card__media:has(video.product-video), .pm__media:has(video.product-video), .line__art:has(img.photo--dark) { background: #000 !important; }
+.card__art:has(video.product-video) { inset: 0; }
+.pm__media video.product-video { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.media__main { display: grid; gap: 16px; min-width: 0; }
+.reel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 16px); }
+.reel__item { position: relative; margin: 0; aspect-ratio: 9 / 16; overflow: hidden; border-radius: var(--radius); background: var(--black); }
+.reel__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.reel__item:hover img { transform: scale(1.04); }
+.reel__item::after { content: ''; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(0deg, rgba(0,0,0,.55), transparent); pointer-events: none; }
+.reel__item figcaption { position: absolute; left: 12px; bottom: 10px; z-index: 1; font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.9); }
+@media (max-width: 720px) {
+  .reel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+  .reel::-webkit-scrollbar { display: none; }
+  .reel__item { flex: 0 0 64%; scroll-snap-align: start; }
+}

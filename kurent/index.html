@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -102,8 +102,24 @@
         <p class="eyebrow reveal">Kurent Media</p>
         <h2 class="section-title reveal" id="media-title">See it moving.</h2>
         <div class="media__grid">
-          <div class="media__video reveal" id="videoSlot">
-            <!-- Filled by app.js: YouTube embed if CONFIG.youtubeId is set, placeholder otherwise -->
+          <div class="media__main">
+            <div class="media__video reveal" id="videoSlot" hidden>
+              <!-- Filled by app.js only when CONFIG.youtubeId is set -->
+            </div>
+            <div class="reel">
+              <figure class="reel__item reveal">
+                <video class="media-video" src="assets/training-weighted-pullup.mp4" poster="assets/training-weighted-pullup-poster.jpg" muted loop playsinline preload="metadata" aria-label="Weighted pull-ups at the gym"></video>
+                <figcaption>Training</figcaption>
+              </figure>
+              <figure class="reel__item reel__item--dark reveal">
+                <video class="media-video" src="assets/krt-logo-vida-e-movimento.mp4" poster="assets/krt-logo-vida-e-movimento-poster.jpg" muted loop playsinline preload="metadata" aria-label="KRT logo animation: Vida e Movimento"></video>
+                <figcaption>Vida e Movimento</figcaption>
+              </figure>
+              <figure class="reel__item reveal">
+                <img src="assets/gym-plates-chain.jpg" alt="Weight plates and a dip chain on the gym floor" loading="lazy">
+                <figcaption>Dirty hands</figcaption>
+              </figure>
+            </div>
           </div>
           <div class="media__side">
             <ul class="socials reveal">
@@ -338,7 +354,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js?v=6"></script>
-  <script src="app.js?v=6"></script>
+  <script src="data.js?v=7"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

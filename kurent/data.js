@@ -39,6 +39,7 @@ window.KURENT_CONFIG = {
   shape / art: no longer used for images (kept for reference)
   images: { [colorName]: 'assets/file.jpg' }  -> product photo (no photo = "Photo coming soon" tile)
   splitColors: true -> one card per colour in the grid
+  videos: { [colorName]: { src, poster } } -> muted looping product video (takes priority over images)
   limited: true  -> shows the "Limited" badge and edition info
   edition: number of pieces (for limited items)
   meaning: text for art pieces
@@ -53,6 +54,7 @@ window.KURENT_PRODUCTS = [
     price: 35,
     shape: 'tee',
     splitColors: true,          // show one card per colourway
+    videos: { Navy: { src: 'assets/sport-life-tee-concept.mp4', poster: 'assets/sport-life-tee-concept-poster.jpg' } },
     description: 'The everyday tee for a life in motion. Heavyweight cotton, relaxed fit, Kurent Sport Life print on the chest.',
     details: ['Heavyweight cotton jersey', 'Relaxed, slightly boxy fit', 'Screen-printed chest graphic', 'Drop 01: not limited'],
     colors: [
