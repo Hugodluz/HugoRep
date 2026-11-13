@@ -205,3 +205,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* Official logo in a small white chip */
 .mbar__chip { display: inline-flex; align-items: center; background: #fff; border-radius: 100px; padding: 7px 12px; }
 .mbar__chip img { display: block; height: 18px; width: auto; }
+
+/* White logo, no background chip */
+.mbar__logo-img { display: block; height: 22px; width: auto; filter: drop-shadow(0 1px 6px rgba(0,0,0,.35)); }
+@media (min-width: 768px) { .mbar__logo-img { height: 24px; } }
