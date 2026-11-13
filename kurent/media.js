@@ -28,9 +28,8 @@
         <div class="slide__info">
           <p class="slide__tag">${esc(it.tag)}</p>
           <h2 class="slide__title">${esc(it.title)}</h2>
-          <p class="slide__caption">${esc(it.caption)}</p>
           ${it.link ? `<a class="slide__link" href="${esc(it.link.href)}">${esc(it.link.label)} <span aria-hidden="true">&rarr;</span></a>` : ''}
-          ${i === 0 ? '<span class="slide__hint" aria-hidden="true"><i></i>Scroll</span>' : ''}
+          ${i === 0 ? '<span class="slide__hint" aria-hidden="true"><i></i></span>' : ''}
         </div>
       </div>
     </section>`;
@@ -40,16 +39,11 @@
   const endHTML = `
     <section class="slide slide--end" id="more" data-index="${ITEMS.length}" aria-label="End of feed">
       <div class="end slide__info" style="position:relative;left:auto;right:auto;bottom:auto;width:auto;max-width:none">
-        <p class="slide__tag">Kurent Media</p>
         <h2 class="slide__title">Move with us.</h2>
-        <p class="slide__caption">New training clips, product drops and stories land here first. Join the list to get them before anyone else.</p>
         <div class="end__actions">
           <a class="end__btn end__btn--solid" href="index.html#join">Join the waitlist</a>
           <a class="end__btn" href="index.html#movement">Shop Movement</a>
         </div>
-        <ul class="end__socials">
-          ${['instagram', 'tiktok', 'youtube', 'strava'].map((k) => `<li><a href="${esc(s[k] || '#')}" target="_blank" rel="noopener">${k === 'tiktok' ? 'TikTok' : k === 'youtube' ? 'YouTube' : k[0].toUpperCase() + k.slice(1)}</a></li>`).join('')}
-        </ul>
       </div>
     </section>`;
 
