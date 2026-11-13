@@ -198,3 +198,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 @media (min-width: 1200px) {
   .slide__info { left: calc(100% + var(--info-gap)); right: auto; width: var(--info-w); }
 }
+
+/* No counter and no top progress line */
+.mbar__count, .mprogress { display: none !important; }
