@@ -191,7 +191,7 @@ body[data-section="team"] .header.is-scrolled { background: rgba(8, 8, 8, .8); c
 @keyframes grain { 50% { transform: translate(-3%, 2%); } }
 .hero__inner { position: relative; max-width: 1320px; width: 100%; margin: 0 auto; }
 .hero .eyebrow { color: var(--brown-light); }
-.hero__title { font-size: clamp(64px, 15vw, 220px); font-weight: 900; text-transform: uppercase; letter-spacing: -.05em; line-height: .86; margin-bottom: 32px; }
+.hero__title { font-size: clamp(50px, 9.6vw, 150px); font-weight: 900; text-transform: uppercase; letter-spacing: -.05em; line-height: .86; margin-bottom: 32px; }
 .hero__title span { display: block; }
 .hero__title--outline { color: transparent; -webkit-text-stroke: 1.5px var(--white); }
 .hero__lede { max-width: 520px; font-size: clamp(16px, 1.6vw, 19px); color: var(--grey-1); margin-bottom: 36px; }
