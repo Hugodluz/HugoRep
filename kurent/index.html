@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -25,7 +25,7 @@
 
       <nav class="nav" id="nav" aria-label="Main">
         <a href="#movement">Movement</a>
-        <a href="#media">Media</a>
+        <a href="media.html">Media</a>
         <a href="#mission">Mission</a>
         <a href="#athletes">Athletes</a>
         <a href="#join" class="nav__join">Join</a>
@@ -85,6 +85,7 @@
         <header class="block__head">
           <p class="block__label reveal">Kurent Media</p>
           <h2 class="block__title reveal" id="media-title">See it moving</h2>
+          <a class="block__more reveal" href="media.html">Open Kurent Media <span aria-hidden="true">&rarr;</span></a>
         </header>
         <div class="media__video reveal" id="videoSlot" hidden>
           <!-- Filled by app.js only when CONFIG.youtubeId is set -->
@@ -92,30 +93,30 @@
       </div>
       <div class="carousel" data-carousel>
         <div class="carousel__track" data-track tabindex="0" aria-label="Kurent stories">
-          <figure class="tile tile--story">
+          <a class="tile tile--story" href="media.html#training">
             <video class="media-video" src="assets/training-weighted-pullup.mp4" poster="assets/training-weighted-pullup-poster.jpg" muted loop playsinline preload="metadata" aria-label="Weighted pull-ups at the gym"></video>
-            <figcaption class="tile__text"><span class="tile__title">Training: weighted pull-ups</span></figcaption>
-          </figure>
-          <figure class="tile tile--story">
+            <span class="tile__text"><span class="tile__title">Training: weighted pull-ups</span></span>
+          </a>
+          <a class="tile tile--story" href="media.html#tee-concept">
             <video class="media-video" src="assets/sport-life-tee-concept.mp4" poster="assets/sport-life-tee-concept-poster.jpg" muted loop playsinline preload="metadata" aria-label="Kurent Sport Life tee, front and back"></video>
-            <figcaption class="tile__text"><span class="tile__title">Concept: the Sport Life tee</span></figcaption>
-          </figure>
-          <figure class="tile tile--story">
+            <span class="tile__text"><span class="tile__title">Concept: the Sport Life tee</span></span>
+          </a>
+          <a class="tile tile--story" href="media.html#forest">
             <img src="assets/lifestyle-sport-life-back.jpg" alt="Back view of someone wearing the Kurent Sport Life tee among mossy boulders" loading="lazy">
-            <figcaption class="tile__text"><span class="tile__title">Spritu forti in the forest</span></figcaption>
-          </figure>
-          <figure class="tile tile--story">
+            <span class="tile__text"><span class="tile__title">Spritu forti in the forest</span></span>
+          </a>
+          <a class="tile tile--story" href="media.html#intro">
             <video class="media-video" src="assets/krt-logo-vida-e-movimento.mp4" poster="assets/krt-logo-vida-e-movimento-poster.jpg" muted loop playsinline preload="metadata" aria-label="KRT logo animation: Vida e Movimento"></video>
-            <figcaption class="tile__text"><span class="tile__title">Vida e Movimento</span></figcaption>
-          </figure>
-          <figure class="tile tile--story">
+            <span class="tile__text"><span class="tile__title">Vida e Movimento</span></span>
+          </a>
+          <a class="tile tile--story" href="media.html#dirty-hands">
             <img src="assets/gym-plates-chain.jpg" alt="Weight plates and a dip chain on the gym floor" loading="lazy">
-            <figcaption class="tile__text"><span class="tile__title">Dirty hands, clean form</span></figcaption>
-          </figure>
-          <figure class="tile tile--story">
+            <span class="tile__text"><span class="tile__title">Dirty hands, clean form</span></span>
+          </a>
+          <a class="tile tile--story" href="media.html#rising">
             <img src="assets/lifestyle-boulders-full.jpg" alt="Someone standing among large boulders in a forest" loading="lazy">
-            <figcaption class="tile__text"><span class="tile__title">Keep rising through pain</span></figcaption>
-          </figure>
+            <span class="tile__text"><span class="tile__title">Keep rising through pain</span></span>
+          </a>
         </div>
         <div class="container carousel__controls">
           <button class="carousel__btn" data-prev aria-label="Previous">&larr;</button>
@@ -251,7 +252,7 @@
     </div>
     <nav class="side-menu__links" aria-label="Sections">
       <a href="#movement" data-menu-link>Movement</a>
-      <a href="#media" data-menu-link>Media</a>
+      <a href="media.html">Media</a>
       <a href="#mission" data-menu-link>Mission</a>
       <a href="#athletes" data-menu-link>Athletes</a>
       <a href="#join" data-menu-link>Join</a>
@@ -341,7 +342,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data.js?v=9"></script>
-  <script src="app.js?v=9"></script>
+  <script src="data.js?v=10"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

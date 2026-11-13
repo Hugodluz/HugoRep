@@ -26,3 +26,9 @@ A static single page you can open without installing anything. Open `index.html`
 ## Drop mechanic
 - `limited: true` + `edition` on any product shows the Limited badge and edition info.
 - `nextDropDate` drives the KRTP countdown. From drop 2, mark Movement/Team products `limited: true` too.
+
+## Kurent Media page (`media.html`)
+- Full-screen vertical feed: one photo or video per screen, snap scrolling, keyboard (↑ ↓, Space, Home/End), side dots on desktop.
+- Content lives in `KURENT_MEDIA` in `data.js`. For each item set `type`, `src`, `poster` (videos), `ratio` (width / height of the file, so desktop shows it at its real proportions), `focus` (what stays in view on phones) and the texts.
+- Link straight to an item with `media.html#<id>` (the home page carousel does this).
+- Videos are stored without audio and only play while on screen. Tap a video to pause.

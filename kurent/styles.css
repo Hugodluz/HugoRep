@@ -711,3 +711,8 @@ body { background: #fff; }
   .tile__badge { top: 10px; left: 10px; }
 }
 .tile__media img.photo { box-sizing: border-box; padding: 4% 10% 44%; }
+
+/* Link to the Media page */
+.block__more { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; min-height: 44px; padding: 0 20px; border: 1px solid var(--ink); border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; color: var(--ink); transition: background .2s, color .2s; }
+.block__more:hover { background: var(--ink); color: #fff; }
+a.tile--story { display: block; color: #fff; text-decoration: none; }

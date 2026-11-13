@@ -88,3 +88,24 @@ window.KURENT_ATHLETES = [
   { name: 'Athlete Name', discipline: 'Street lifting', base: 'Porto', photo: '' },
   { name: 'Athlete Name', discipline: 'Calisthenics', base: 'Mindelo', photo: '' }
 ];
+
+/* Kurent Media feed (media.html) — vertical, one item per screen.
+   type: 'video' | 'image'. ratio = width / height of the file (used on desktop
+   so each item keeps its real proportions). focus = object-position on phones,
+   where items fill the screen. id is used in links: media.html#training */
+window.KURENT_MEDIA = [
+  { id: 'intro', type: 'video', src: 'assets/krt-logo-vida-e-movimento.mp4', poster: 'assets/krt-logo-vida-e-movimento-poster.jpg', ratio: 9 / 16, focus: '50% 50%',
+    tag: 'Kurent Media', title: 'Vida e Movimento', caption: 'Training, product and the people behind Kurent. Scroll to explore.' },
+  { id: 'training', type: 'video', src: 'assets/training-weighted-pullup.mp4', poster: 'assets/training-weighted-pullup-poster.jpg', ratio: 9 / 16, focus: '50% 45%',
+    tag: 'Training', title: 'Weighted pull-ups', caption: 'Plates on the belt, chin over the bar. Dirty hands, clean form.' },
+  { id: 'forest', type: 'image', src: 'assets/lifestyle-sport-life-back.jpg', ratio: 1200 / 1477, focus: '50% 60%',
+    tag: 'Lifestyle', title: 'Spritu forti in the forest', caption: 'The Kurent Sport Life tee, out among the boulders.' },
+  { id: 'tee-concept', type: 'video', src: 'assets/sport-life-tee-concept.mp4', poster: 'assets/sport-life-tee-concept-poster.jpg', ratio: 9 / 16, focus: '50% 50%',
+    tag: 'Product', title: 'Concept: the Sport Life tee', caption: 'Front and back of the first Kurent Movement tee.', link: { href: 'index.html#movement', label: 'Shop the tee' } },
+  { id: 'dirty-hands', type: 'image', src: 'assets/gym-plates-chain.jpg', ratio: 900 / 1200, focus: '50% 40%',
+    tag: 'Training', title: 'Dirty hands, clean form', caption: 'Plates, chain and belt. The tools of the work.' },
+  { id: 'rising', type: 'image', src: 'assets/lifestyle-boulders-full.jpg', ratio: 777 / 1307, focus: '50% 55%',
+    tag: 'Mindset', title: 'Keep rising through pain', caption: 'Stand in front of what is bigger than you, and keep going.' },
+  { id: 'portrait', type: 'image', src: 'assets/lifestyle-portrait-color.jpg', ratio: 1200 / 1600, focus: '50% 35%',
+    tag: 'Community', title: 'Vida e movimento', caption: 'Movement is for everyone. This is where it starts.' }
+];
