@@ -788,3 +788,8 @@ body[data-section] .header.is-scrolled { background: #fff; color: var(--ink); bo
   .pm__view img { width: 38px; height: 38px; }
   .pm__view { padding: 4px 6px; }
 }
+
+/* Athletes header: KRT team wordmark leads, "Athletes" sits smaller below */
+#athletes .block__label--mark { margin-bottom: 12px; }
+#athletes .block__label--mark img { height: clamp(38px, 5vw, 64px); }
+.block__title--sub { font-size: clamp(20px, 2vw, 26px); font-weight: 600; letter-spacing: -.01em; color: var(--grey-3); }
